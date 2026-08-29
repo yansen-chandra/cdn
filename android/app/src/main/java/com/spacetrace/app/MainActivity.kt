@@ -42,15 +42,14 @@ private fun SpaceTraceRoot(viewModel: ScanViewModel = viewModel()) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = androidx.compose.ui.platform.LocalContext.current
 
-    // Re-check the special permission whenever the app resumes -- it's granted
-    // in system Settings, outside any in-app runtime-permission callback.
+    // Re-check the special permission whenever the app resumes -- it's granted in system
+    // Settings, outside any in-app runtime-permission callback. This does NOT trigger a
+    // rescan on every resume: the initial scan below already runs once permission becomes
+    // true, and after that it's the user's call via the refresh button in the top bar.
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 viewModel.refreshPermissionState()
-                if (PermissionUtils.hasAllFilesAccess()) {
-                    viewModel.startScan()
-                }
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)

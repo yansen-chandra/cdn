@@ -47,6 +47,7 @@ fun RecentScreen(
 ) {
     var viewMode by remember { mutableStateOf(RecentViewMode.DATE) }
     var pendingDelete by remember { mutableStateOf<FileEntry?>(null) }
+    var revealPath by remember { mutableStateOf<String?>(null) }
 
     val files = remember(result, showHidden) {
         if (showHidden) result.files else result.files.filterNot { it.isHidden }
@@ -63,11 +64,17 @@ fun RecentScreen(
             RecentViewMode.DATE -> DateGroupedList(
                 files = files,
                 isScanning = progress.isScanning,
+                onFileClick = { entry ->
+                    revealPath = entry.path
+                    viewMode = RecentViewMode.TREE
+                },
                 onFileLongClick = { pendingDelete = it },
             )
             RecentViewMode.TREE -> RecentTreeList(
                 files = files,
                 roots = result.rootPaths,
+                revealPath = revealPath,
+                onRevealed = { revealPath = null },
                 onFileLongClick = { pendingDelete = it },
             )
         }
@@ -89,6 +96,7 @@ fun RecentScreen(
 private fun DateGroupedList(
     files: List<FileEntry>,
     isScanning: Boolean,
+    onFileClick: (FileEntry) -> Unit,
     onFileLongClick: (FileEntry) -> Unit,
 ) {
     val groups = remember(files) { DateGrouping.groupByCreatedDay(files) }
@@ -109,6 +117,8 @@ private fun DateGroupedList(
                 FileRow(
                     entry = entry,
                     subtitle = timeFormat.format(entry.createdAtMillis),
+                    path = entry.parentPath,
+                    onClick = { onFileClick(entry) },
                     onLongClick = { onFileLongClick(entry) },
                 )
                 HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)

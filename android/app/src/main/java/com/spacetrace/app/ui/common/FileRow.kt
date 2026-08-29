@@ -36,6 +36,7 @@ fun FileRow(
     entry: FileEntry,
     subtitle: String,
     modifier: Modifier = Modifier,
+    path: String? = null,
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {},
 ) {
@@ -84,6 +85,15 @@ fun FileRow(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+            if (path != null) {
+                Text(
+                    text = path,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.outline,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
         Spacer(Modifier.width(8.dp))
         Text(

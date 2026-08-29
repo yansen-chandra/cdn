@@ -103,6 +103,22 @@ object FileTree {
             .sortedByDescending { it.latestCreatedAtMillis }
     }
 
+    /**
+     * The chain of folder paths (immediate parent first, storage root last) that must all be
+     * expanded for a file directly inside [fileParentPath] to be visible -- i.e. every ancestor
+     * [build] would have walked for that file.
+     */
+    fun ancestorPaths(fileParentPath: String, roots: List<String>): List<String> {
+        val chain = ArrayList<String>()
+        var p: String? = fileParentPath
+        while (p != null) {
+            chain.add(p)
+            if (roots.contains(p)) break
+            p = File(p).parent
+        }
+        return chain
+    }
+
     /** Flattens [nodes] into the currently-visible rows given which folder paths are expanded. */
     fun flattenVisible(nodes: List<TreeNode>, expanded: Set<String>): List<TreeNode> {
         val out = ArrayList<TreeNode>()

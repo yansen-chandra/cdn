@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.ExpandMore
@@ -21,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,11 +48,30 @@ private fun indentFor(depth: Int) = (depth - 1).coerceAtLeast(0) * indentUnit.va
 fun RecentTreeList(
     files: List<FileEntry>,
     roots: List<String>,
+    revealPath: String? = null,
+    onRevealed: () -> Unit = {},
     onFileLongClick: (FileEntry) -> Unit,
 ) {
     val tree = remember(files, roots) { FileTree.build(files, roots) }
     var expanded by remember(tree) { mutableStateOf(emptySet<String>()) }
     val visible = remember(tree, expanded) { FileTree.flattenVisible(tree, expanded) }
+    val listState = rememberLazyListState()
+
+    // Expand every ancestor folder of the file we're revealing, then once it shows up
+    // in the flattened (now-expanded) list, scroll to it.
+    LaunchedEffect(revealPath, files, roots) {
+        val target = revealPath ?: return@LaunchedEffect
+        val entry = files.firstOrNull { it.path == target } ?: return@LaunchedEffect
+        expanded = expanded + FileTree.ancestorPaths(entry.parentPath, roots)
+    }
+    LaunchedEffect(revealPath, visible) {
+        val target = revealPath ?: return@LaunchedEffect
+        val index = visible.indexOfFirst { it.path == target }
+        if (index >= 0) {
+            listState.animateScrollToItem(index)
+            onRevealed()
+        }
+    }
 
     if (visible.isEmpty()) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -59,12 +80,13 @@ fun RecentTreeList(
         return
     }
 
-    LazyColumn(Modifier.fillMaxSize()) {
+    LazyColumn(Modifier.fillMaxSize(), state = listState) {
         items(visible, key = { it.path }) { node ->
             if (node.isFile) {
                 FileRow(
                     entry = node.entry!!,
                     subtitle = treeTimeFormat.format(node.entry.createdAtMillis),
+                    path = node.entry.parentPath,
                     modifier = Modifier.padding(start = indentFor(node.depth).dp),
                     onLongClick = { onFileLongClick(node.entry) },
                 )
