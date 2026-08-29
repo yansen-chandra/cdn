@@ -32,13 +32,19 @@ object DateGrouping {
         }
     }
 
-    /** Buckets [files] by the calendar day they were created on, newest day first. */
+    /**
+     * Buckets [files] by the calendar day they were created on, newest day first. Within each
+     * day, files are sorted largest-first -- the day groups them by "when", the ordering inside
+     * answers "what's actually taking up space that day".
+     */
     fun groupByCreatedDay(files: List<FileEntry>): List<DayGroup> {
-        val sorted = files.sortedByDescending { it.createdAtMillis }
-        val grouped = sorted.groupBy { dayKey(it.createdAtMillis) }
+        val grouped = files.groupBy { dayKey(it.createdAtMillis) }
         return grouped.entries
             .sortedByDescending { it.key }
-            .map { (key, list) -> DayGroup(key, dayLabel(list.first().createdAtMillis), list) }
+            .map { (key, list) ->
+                val bySize = list.sortedByDescending { it.sizeBytes }
+                DayGroup(key, dayLabel(bySize.first().createdAtMillis), bySize)
+            }
     }
 
     private fun daysBetween(a: Calendar, b: Calendar): Int {
