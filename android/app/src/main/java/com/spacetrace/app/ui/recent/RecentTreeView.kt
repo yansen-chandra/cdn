@@ -1,6 +1,7 @@
 package com.spacetrace.app.ui.recent
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.OpenInNew
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.spacetrace.app.model.FileEntry
@@ -36,6 +41,7 @@ import com.spacetrace.app.ui.common.FileRow
 import com.spacetrace.app.util.DateGrouping
 import com.spacetrace.app.util.FileTree
 import com.spacetrace.app.util.FormatUtils
+import com.spacetrace.app.util.OpenWith
 import com.spacetrace.app.util.TreeNode
 
 private val indentUnit = 16.dp
@@ -50,6 +56,7 @@ fun RecentTreeList(
     onRevealed: () -> Unit = {},
     onFileLongClick: (FileEntry) -> Unit,
 ) {
+    val context = LocalContext.current
     val tree = remember(files, roots) { FileTree.build(files, roots) }
     var expanded by remember(tree) { mutableStateOf(emptySet<String>()) }
     val visible = remember(tree, expanded) { FileTree.flattenVisible(tree, expanded) }
@@ -86,7 +93,8 @@ fun RecentTreeList(
                     subtitle = DateGrouping.fullDateTime(node.entry.createdAtMillis),
                     path = node.entry.parentPath,
                     modifier = Modifier.padding(start = indentFor(node.depth).dp),
-                    onLongClick = { onFileLongClick(node.entry) },
+                    onOpenWith = { OpenWith.launch(context, node.entry) },
+                    onDelete = { onFileLongClick(node.entry) },
                 )
             } else {
                 TreeFolderRow(
@@ -99,6 +107,7 @@ fun RecentTreeList(
                             expanded + node.path
                         }
                     },
+                    onOpenWith = { OpenWith.launch(context, node.path, isDirectory = true, name = node.name) },
                 )
             }
             HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
@@ -106,43 +115,57 @@ fun RecentTreeList(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun TreeFolderRow(node: TreeNode, expanded: Boolean, onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(start = indentFor(node.depth).dp, end = 16.dp, top = 10.dp, bottom = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = if (expanded) Icons.Filled.ExpandMore else Icons.Filled.ChevronRight,
-            contentDescription = if (expanded) "Collapse" else "Expand",
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(20.dp),
-        )
-        Spacer(Modifier.width(4.dp))
-        Icon(
-            imageVector = Icons.Filled.Folder,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(22.dp),
-        )
-        Spacer(Modifier.width(8.dp))
-        Column(Modifier.weight(1f)) {
-            Text(
-                text = node.name,
-                style = MaterialTheme.typography.bodyLarge,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+private fun TreeFolderRow(node: TreeNode, expanded: Boolean, onClick: () -> Unit, onOpenWith: () -> Unit) {
+    var showMenu by remember { mutableStateOf(false) }
+    Box {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .combinedClickable(onClick = onClick, onLongClick = { showMenu = true })
+                .padding(start = indentFor(node.depth).dp, end = 16.dp, top = 10.dp, bottom = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = if (expanded) Icons.Filled.ExpandMore else Icons.Filled.ChevronRight,
+                contentDescription = if (expanded) "Collapse" else "Expand",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(20.dp),
             )
-            Text(
-                text = "${FormatUtils.formatCount(node.fileCount)} files",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            Spacer(Modifier.width(4.dp))
+            Icon(
+                imageVector = Icons.Filled.Folder,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(22.dp),
+            )
+            Spacer(Modifier.width(8.dp))
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = node.name,
+                    style = MaterialTheme.typography.bodyLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Text(
+                    text = "${FormatUtils.formatCount(node.fileCount)} files",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Spacer(Modifier.width(8.dp))
+            Text(FormatUtils.formatBytes(node.totalSizeBytes), style = MaterialTheme.typography.labelLarge)
+        }
+        DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+            DropdownMenuItem(
+                text = { Text("Open with") },
+                leadingIcon = { Icon(Icons.Filled.OpenInNew, contentDescription = null) },
+                onClick = {
+                    showMenu = false
+                    onOpenWith()
+                },
             )
         }
-        Spacer(Modifier.width(8.dp))
-        Text(FormatUtils.formatBytes(node.totalSizeBytes), style = MaterialTheme.typography.labelLarge)
     }
 }

@@ -1,8 +1,11 @@
 package com.spacetrace.app.ui.storage
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +17,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.OpenInNew
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.spacetrace.app.model.FileEntry
@@ -34,6 +41,7 @@ import com.spacetrace.app.ui.common.DeleteConfirmDialog
 import com.spacetrace.app.ui.common.FileRow
 import com.spacetrace.app.ui.common.SizeBar
 import com.spacetrace.app.util.FormatUtils
+import com.spacetrace.app.util.OpenWith
 
 private enum class StorageTab { FOLDERS, FILES }
 
@@ -43,6 +51,7 @@ fun StorageScreen(
     showHidden: Boolean,
     onDelete: (FileEntry) -> Unit,
 ) {
+    val context = LocalContext.current
     var tab by remember { mutableStateOf(StorageTab.FOLDERS) }
     var pendingDelete by remember { mutableStateOf<FileEntry?>(null) }
 
@@ -78,7 +87,11 @@ fun StorageScreen(
         when (tab) {
             StorageTab.FOLDERS -> LazyColumn(Modifier.fillMaxSize()) {
                 items(topFolders, key = { it.path }) { folder ->
-                    FolderRow(folder, fraction = folder.totalSizeBytes.toFloat() / maxBytes)
+                    FolderRow(
+                        folder = folder,
+                        fraction = folder.totalSizeBytes.toFloat() / maxBytes,
+                        onOpenWith = { OpenWith.launch(context, folder.path, isDirectory = true, name = folder.name) },
+                    )
                     HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                 }
             }
@@ -87,7 +100,8 @@ fun StorageScreen(
                     FileRow(
                         entry = entry,
                         subtitle = entry.parentPath,
-                        onLongClick = { pendingDelete = entry },
+                        onOpenWith = { OpenWith.launch(context, entry) },
+                        onDelete = { pendingDelete = entry },
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                 }
@@ -136,39 +150,56 @@ private fun TabRow(selected: StorageTab, onSelect: (StorageTab) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun FolderRow(folder: FolderStat, fraction: Float) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = Icons.Filled.Folder,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(28.dp),
-        )
-        Spacer(Modifier.size(12.dp))
-        Column(Modifier.weight(1f)) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+private fun FolderRow(folder: FolderStat, fraction: Float, onOpenWith: () -> Unit) {
+    var showMenu by remember { mutableStateOf(false) }
+    Box {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .combinedClickable(onClick = {}, onLongClick = { showMenu = true })
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Folder,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(28.dp),
+            )
+            Spacer(Modifier.size(12.dp))
+            Column(Modifier.weight(1f)) {
+                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        folder.name,
+                        style = MaterialTheme.typography.bodyLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f, fill = false),
+                    )
+                    Text(FormatUtils.formatBytes(folder.totalSizeBytes), style = MaterialTheme.typography.labelLarge)
+                }
                 Text(
-                    folder.name,
-                    style = MaterialTheme.typography.bodyLarge,
+                    folder.path,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f, fill = false),
                 )
-                Text(FormatUtils.formatBytes(folder.totalSizeBytes), style = MaterialTheme.typography.labelLarge)
+                Spacer(Modifier.size(4.dp))
+                SizeBar(fraction)
             }
-            Text(
-                folder.path,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+        }
+        DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+            DropdownMenuItem(
+                text = { Text("Open with") },
+                leadingIcon = { Icon(Icons.Filled.OpenInNew, contentDescription = null) },
+                onClick = {
+                    showMenu = false
+                    onOpenWith()
+                },
             )
-            Spacer(Modifier.size(4.dp))
-            SizeBar(fraction)
         }
     }
 }

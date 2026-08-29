@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Maps the entire device filesystem so any scanned path -- internal storage, an SD
+         card, anywhere MANAGE_EXTERNAL_STORAGE lets this app read -- can be turned into a
+         content:// URI, not just this app's own sandboxed directories. -->
+    <root-path name="root" path="" />
+</paths>

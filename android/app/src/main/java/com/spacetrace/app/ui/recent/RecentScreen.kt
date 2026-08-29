@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.spacetrace.app.model.FileEntry
 import com.spacetrace.app.model.ScanProgress
@@ -37,6 +38,7 @@ import com.spacetrace.app.ui.common.DeleteConfirmDialog
 import com.spacetrace.app.ui.common.FileRow
 import com.spacetrace.app.util.DateGrouping
 import com.spacetrace.app.util.FormatUtils
+import com.spacetrace.app.util.OpenWith
 
 private enum class RecentViewMode { DATE, TREE }
 
@@ -101,6 +103,7 @@ private fun DateGroupedList(
     onFileClick: (FileEntry) -> Unit,
     onFileLongClick: (FileEntry) -> Unit,
 ) {
+    val context = LocalContext.current
     val groups = remember(files) { DateGrouping.groupByRecency(files) }
     // Every section starts expanded (matches the old always-visible behavior); collapsing
     // one is opt-in rather than something that needs to survive a rescan.
@@ -137,7 +140,8 @@ private fun DateGroupedList(
                         subtitle = DateGrouping.fullDateTime(entry.createdAtMillis),
                         path = entry.parentPath,
                         onClick = { onFileClick(entry) },
-                        onLongClick = { onFileLongClick(entry) },
+                        onOpenWith = { OpenWith.launch(context, entry) },
+                        onDelete = { onFileLongClick(entry) },
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                 }

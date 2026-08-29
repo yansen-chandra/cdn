@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.spacetrace.app.model.FileEntry
@@ -31,6 +32,7 @@ import com.spacetrace.app.model.ScanResult
 import com.spacetrace.app.ui.common.DeleteConfirmDialog
 import com.spacetrace.app.ui.common.FileRow
 import com.spacetrace.app.util.DateGrouping
+import com.spacetrace.app.util.OpenWith
 
 @Composable
 fun BrowseScreen(
@@ -38,6 +40,7 @@ fun BrowseScreen(
     showHidden: Boolean,
     onDelete: (FileEntry) -> Unit,
 ) {
+    val context = LocalContext.current
     var currentPath by remember(result.rootPaths) {
         mutableStateOf(result.rootPaths.firstOrNull())
     }
@@ -69,6 +72,9 @@ fun BrowseScreen(
         } else {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(children, key = { it.path }) { entry ->
+                    val deleteAction: (() -> Unit)? = if (entry.isDirectory) null else {
+                        { pendingDelete = entry }
+                    }
                     FileRow(
                         entry = entry,
                         subtitle = if (entry.isDirectory) {
@@ -77,7 +83,8 @@ fun BrowseScreen(
                             DateGrouping.dayLabel(entry.modifiedAtMillis)
                         },
                         onClick = { if (entry.isDirectory) currentPath = entry.path },
-                        onLongClick = { if (!entry.isDirectory) pendingDelete = entry },
+                        onOpenWith = { OpenWith.launch(context, entry) },
+                        onDelete = deleteAction,
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                 }

@@ -19,7 +19,9 @@ hidden/dotfiles and directories that the Photos/Files apps hide from you.
   out.
 - **Browse tab** — a classic folder-by-folder explorer starting from each
   storage volume (internal + SD card/USB if present).
-- Long-press any file to delete it (with a confirmation dialog).
+- Long-press any file or folder for "Open with" (hands it to another
+  installed app via a `FileProvider` content:// URI) and, for files,
+  "Delete" (with a confirmation dialog).
 - The eye icon in the top bar toggles whether hidden (dot-prefixed) files
   show up in the Recent/Browse lists. The Storage tab's totals always
   include hidden files, since caches and thumbnails are often the biggest
