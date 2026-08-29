@@ -37,12 +37,8 @@ import com.spacetrace.app.ui.common.DeleteConfirmDialog
 import com.spacetrace.app.ui.common.FileRow
 import com.spacetrace.app.util.DateGrouping
 import com.spacetrace.app.util.FormatUtils
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 private enum class RecentViewMode { DATE, TREE }
-
-private val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
 
 @Composable
 fun RecentScreen(
@@ -138,7 +134,7 @@ private fun DateGroupedList(
                 items(group.files, key = { it.path }) { entry ->
                     FileRow(
                         entry = entry,
-                        subtitle = timeFormat.format(entry.createdAtMillis),
+                        subtitle = DateGrouping.fullDateTime(entry.createdAtMillis),
                         path = entry.parentPath,
                         onClick = { onFileClick(entry) },
                         onLongClick = { onFileLongClick(entry) },

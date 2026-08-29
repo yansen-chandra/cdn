@@ -33,13 +33,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.spacetrace.app.model.FileEntry
 import com.spacetrace.app.ui.common.FileRow
+import com.spacetrace.app.util.DateGrouping
 import com.spacetrace.app.util.FileTree
 import com.spacetrace.app.util.FormatUtils
 import com.spacetrace.app.util.TreeNode
-import java.text.SimpleDateFormat
-import java.util.Locale
 
-private val treeTimeFormat = SimpleDateFormat("MMM d, h:mm a", Locale.getDefault())
 private val indentUnit = 16.dp
 
 private fun indentFor(depth: Int) = (depth - 1).coerceAtLeast(0) * indentUnit.value
@@ -85,7 +83,7 @@ fun RecentTreeList(
             if (node.isFile) {
                 FileRow(
                     entry = node.entry!!,
-                    subtitle = treeTimeFormat.format(node.entry.createdAtMillis),
+                    subtitle = DateGrouping.fullDateTime(node.entry.createdAtMillis),
                     path = node.entry.parentPath,
                     modifier = Modifier.padding(start = indentFor(node.depth).dp),
                     onLongClick = { onFileLongClick(node.entry) },

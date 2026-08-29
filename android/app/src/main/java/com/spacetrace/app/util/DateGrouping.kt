@@ -11,6 +11,13 @@ object DateGrouping {
 
     private val sameYearFormat = SimpleDateFormat("EEEE, MMM d", Locale.US)
     private val otherYearFormat = SimpleDateFormat("EEEE, MMM d, yyyy", Locale.US)
+    private val fullDateTimeFormat = SimpleDateFormat("MMM d, yyyy, h:mm a", Locale.getDefault())
+
+    /**
+     * The full absolute date and time, e.g. "Aug 26, 2026, 10:07 AM" -- unlike [dayLabel], never
+     * relative, so it stays unambiguous inside a multi-day section like "Last week" or "Older".
+     */
+    fun fullDateTime(epochMillis: Long): String = fullDateTimeFormat.format(epochMillis)
 
     /** Human label for a calendar day, e.g. "Today", "Yesterday", "Wednesday, Aug 26". */
     fun dayLabel(epochMillis: Long, now: Long = System.currentTimeMillis()): String =
