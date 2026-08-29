@@ -14,9 +14,13 @@ hidden/dotfiles and directories that the Photos/Files apps hide from you.
   read/write storage permissions.
 - **Recent tab** — every file found, grouped by the calendar day it was
   created, newest day first.
-- **Storage tab** — biggest folders and biggest individual files, each
-  with a proportional size bar, so you can see at a glance what to clear
-  out.
+- **Storage tab** — biggest folders, biggest individual files, and an
+  **Apps** list (per-installed-app storage via `StorageStatsManager`,
+  gated behind the separate "Usage access" permission since app-private
+  data is sandboxed and can't be browsed directly, even by this app).
+  Each row has a proportional size bar, so you can see at a glance what
+  to clear out. Tapping an app opens its system App Info screen to
+  uninstall or clear cache.
 - **Browse tab** — a classic folder-by-folder explorer starting from each
   storage volume (internal + SD card/USB if present).
 - Long-press any file or folder for "Open with" (hands it to another

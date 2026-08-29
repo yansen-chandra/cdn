@@ -9,6 +9,18 @@
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
+    <!-- "Usage access" special permission: the only way to read per-app storage totals
+         (StorageStatsManager) without ever touching another app's private data directly. -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Needed to enumerate every installed app for the Apps storage list; the default
+         Android 11+ package-visibility filtering would otherwise hide most of them. -->
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
     <application
         android:name=".SpaceTraceApp"
         android:allowBackup="true"

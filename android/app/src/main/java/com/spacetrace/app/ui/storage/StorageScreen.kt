@@ -43,7 +43,7 @@ import com.spacetrace.app.ui.common.SizeBar
 import com.spacetrace.app.util.FormatUtils
 import com.spacetrace.app.util.OpenWith
 
-private enum class StorageTab { FOLDERS, FILES }
+private enum class StorageTab { FOLDERS, FILES, APPS }
 
 @Composable
 fun StorageScreen(
@@ -106,6 +106,7 @@ fun StorageScreen(
                     HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                 }
             }
+            StorageTab.APPS -> AppsTab(Modifier.fillMaxSize())
         }
     }
 
@@ -137,7 +138,11 @@ private fun SummaryHeader(result: ScanResult) {
 private fun TabRow(selected: StorageTab, onSelect: (StorageTab) -> Unit) {
     Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
         StorageTab.values().forEach { t ->
-            val label = if (t == StorageTab.FOLDERS) "Biggest folders" else "Biggest files"
+            val label = when (t) {
+                StorageTab.FOLDERS -> "Biggest folders"
+                StorageTab.FILES -> "Biggest files"
+                StorageTab.APPS -> "Apps"
+            }
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelLarge,
