@@ -105,10 +105,10 @@ private fun DateGroupedList(
     onFileClick: (FileEntry) -> Unit,
     onFileLongClick: (FileEntry) -> Unit,
 ) {
-    val groups = remember(files) { DateGrouping.groupByCreatedDay(files) }
-    // Every day section starts expanded (matches the old always-visible behavior); collapsing
-    // one is opt-in per day rather than something that needs to survive a rescan.
-    var expandedDays by remember(groups) { mutableStateOf(groups.map { it.dayKey }.toSet()) }
+    val groups = remember(files) { DateGrouping.groupByRecency(files) }
+    // Every section starts expanded (matches the old always-visible behavior); collapsing
+    // one is opt-in rather than something that needs to survive a rescan.
+    var expandedGroups by remember(groups) { mutableStateOf(groups.map { it.groupKey }.toSet()) }
 
     if (groups.isEmpty() && !isScanning) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -119,17 +119,17 @@ private fun DateGroupedList(
 
     LazyColumn(Modifier.fillMaxSize()) {
         groups.forEach { group ->
-            val isExpanded = expandedDays.contains(group.dayKey)
-            item(key = "header_${group.dayKey}") {
+            val isExpanded = expandedGroups.contains(group.groupKey)
+            item(key = "header_${group.groupKey}") {
                 DayHeader(
                     label = group.label,
                     totalBytes = group.files.sumOf { it.sizeBytes },
                     expanded = isExpanded,
                     onClick = {
-                        expandedDays = if (isExpanded) {
-                            expandedDays - group.dayKey
+                        expandedGroups = if (isExpanded) {
+                            expandedGroups - group.groupKey
                         } else {
-                            expandedDays + group.dayKey
+                            expandedGroups + group.groupKey
                         }
                     },
                 )
