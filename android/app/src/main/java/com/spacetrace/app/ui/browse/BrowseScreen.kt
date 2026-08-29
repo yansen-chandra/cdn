@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -61,7 +61,7 @@ fun BrowseScreen(
             canGoUp = currentPath != null && !result.rootPaths.contains(currentPath),
             onUp = { currentPath = parentOf(currentPath, result.rootPaths) },
         )
-        Divider()
+        HorizontalDivider()
         if (children.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text("Empty", color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -79,7 +79,7 @@ fun BrowseScreen(
                         onClick = { if (entry.isDirectory) currentPath = entry.path },
                         onLongClick = { if (!entry.isDirectory) pendingDelete = entry },
                     )
-                    Divider(color = MaterialTheme.colorScheme.surfaceVariant)
+                    HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                 }
             }
         }

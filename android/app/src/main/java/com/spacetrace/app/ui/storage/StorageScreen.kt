@@ -14,7 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -74,12 +74,12 @@ fun StorageScreen(
     Column(Modifier.fillMaxSize()) {
         SummaryHeader(result)
         TabRow(tab, onSelect = { tab = it })
-        Divider()
+        HorizontalDivider()
         when (tab) {
             StorageTab.FOLDERS -> LazyColumn(Modifier.fillMaxSize()) {
                 items(topFolders, key = { it.path }) { folder ->
                     FolderRow(folder, fraction = folder.totalSizeBytes.toFloat() / maxBytes)
-                    Divider(color = MaterialTheme.colorScheme.surfaceVariant)
+                    HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                 }
             }
             StorageTab.FILES -> LazyColumn(Modifier.fillMaxSize()) {
@@ -89,7 +89,7 @@ fun StorageScreen(
                         subtitle = entry.parentPath,
                         onLongClick = { pendingDelete = entry },
                     )
-                    Divider(color = MaterialTheme.colorScheme.surfaceVariant)
+                    HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
                 }
             }
         }

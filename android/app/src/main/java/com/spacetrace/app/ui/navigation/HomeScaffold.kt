@@ -1,6 +1,7 @@
 package com.spacetrace.app.ui.navigation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.PieChart
@@ -8,6 +9,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
@@ -34,6 +36,7 @@ private enum class HomeTab(val label: String) {
     BROWSE("Browse"),
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScaffold(viewModel: ScanViewModel = viewModel()) {
     var tab by remember { mutableStateOf(HomeTab.RECENT) }
