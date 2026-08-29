@@ -1,6 +1,7 @@
 package com.spacetrace.app.ui.recent
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,8 @@ import com.spacetrace.app.util.FormatUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+private enum class RecentViewMode { DATE, TREE }
+
 private val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
 
 @Composable
@@ -42,36 +45,31 @@ fun RecentScreen(
     showHidden: Boolean,
     onDelete: (FileEntry) -> Unit,
 ) {
-    val groups = remember(result, showHidden) {
-        val files = if (showHidden) result.files else result.files.filterNot { it.isHidden }
-        DateGrouping.groupByCreatedDay(files)
-    }
+    var viewMode by remember { mutableStateOf(RecentViewMode.DATE) }
     var pendingDelete by remember { mutableStateOf<FileEntry?>(null) }
+
+    val files = remember(result, showHidden) {
+        if (showHidden) result.files else result.files.filterNot { it.isHidden }
+    }
 
     Column(Modifier.fillMaxSize()) {
         if (progress.isScanning) {
             ScanBanner(progress)
         }
-        if (groups.isEmpty() && !progress.isScanning) {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No files found yet. Pull to scan.", color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-        } else {
-            LazyColumn(Modifier.fillMaxSize()) {
-                groups.forEach { group ->
-                    item(key = "header_${group.dayKey}") {
-                        DayHeader(group.label, group.files.sumOf { it.sizeBytes })
-                    }
-                    items(group.files, key = { it.path }) { entry ->
-                        FileRow(
-                            entry = entry,
-                            subtitle = timeFormat.format(entry.createdAtMillis),
-                            onLongClick = { pendingDelete = entry },
-                        )
-                        HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
-                    }
-                }
-            }
+        ViewModeRow(viewMode, onSelect = { viewMode = it })
+        HorizontalDivider()
+
+        when (viewMode) {
+            RecentViewMode.DATE -> DateGroupedList(
+                files = files,
+                isScanning = progress.isScanning,
+                onFileLongClick = { pendingDelete = it },
+            )
+            RecentViewMode.TREE -> RecentTreeList(
+                files = files,
+                roots = result.rootPaths,
+                onFileLongClick = { pendingDelete = it },
+            )
         }
     }
 
@@ -84,6 +82,55 @@ fun RecentScreen(
             },
             onDismiss = { pendingDelete = null },
         )
+    }
+}
+
+@Composable
+private fun DateGroupedList(
+    files: List<FileEntry>,
+    isScanning: Boolean,
+    onFileLongClick: (FileEntry) -> Unit,
+) {
+    val groups = remember(files) { DateGrouping.groupByCreatedDay(files) }
+
+    if (groups.isEmpty() && !isScanning) {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("No files found yet. Pull to scan.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        return
+    }
+
+    LazyColumn(Modifier.fillMaxSize()) {
+        groups.forEach { group ->
+            item(key = "header_${group.dayKey}") {
+                DayHeader(group.label, group.files.sumOf { it.sizeBytes })
+            }
+            items(group.files, key = { it.path }) { entry ->
+                FileRow(
+                    entry = entry,
+                    subtitle = timeFormat.format(entry.createdAtMillis),
+                    onLongClick = { onFileLongClick(entry) },
+                )
+                HorizontalDivider(color = MaterialTheme.colorScheme.surfaceVariant)
+            }
+        }
+    }
+}
+
+@Composable
+private fun ViewModeRow(selected: RecentViewMode, onSelect: (RecentViewMode) -> Unit) {
+    Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
+        val labels = mapOf(RecentViewMode.DATE to "By date", RecentViewMode.TREE to "By tree")
+        labels.forEach { (mode, label) ->
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelLarge,
+                color = if (mode == selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .padding(end = 24.dp)
+                    .clickable { onSelect(mode) },
+            )
+        }
     }
 }
 
