@@ -52,6 +52,23 @@ platform constraint, not a bug in this app.
 > Android Studio (which will fetch the SDK/AGP normally) to build, run,
 > and iterate on it.
 
+## CI
+
+`.github/workflows/android-ci.yml` runs on every push/PR touching
+`android/**`:
+
+1. **build** — `./gradlew assembleDebug`, uploads the APK as a build
+   artifact.
+2. **emulator-smoke-test** — boots a real Android 11 (API 30) emulator on
+   the runner (`reactivecircus/android-emulator-runner`) and runs
+   `app/src/androidTest/.../SmokeTest.kt`, which launches `MainActivity`
+   and asserts it renders past the permission screen into the Recent
+   tab. Since the emulator can't click through the system "All files
+   access" settings screen, the test grants the underlying app-op
+   directly via `adb shell appops set --uid <pkg> MANAGE_EXTERNAL_STORAGE
+   allow` before the activity launches — the standard way CI grants that
+   permission for file-manager-style apps.
+
 ## Project layout
 
 ```
