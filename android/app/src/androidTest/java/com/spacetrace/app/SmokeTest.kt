@@ -1,9 +1,7 @@
 package com.spacetrace.app
 
-import androidx.compose.ui.test.assertExists
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
-import androidx.compose.ui.test.onFirst
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -39,10 +37,10 @@ class SmokeTest {
     @Test
     fun appLaunchesAndShowsHomeScaffold() {
         // "Recent" appears twice once past the permission gate (top bar title + bottom
-        // nav label), so match on "at least one" rather than a single unique node.
+        // nav label). waitUntil itself throws (failing the test) if this never becomes
+        // true within the timeout, so that's the whole assertion.
         composeRule.waitUntil(timeoutMillis = 20_000) {
             composeRule.onAllNodesWithText("Recent").fetchSemanticsNodes().isNotEmpty()
         }
-        composeRule.onAllNodesWithText("Recent").onFirst().assertExists()
     }
 }
