@@ -1,11 +1,13 @@
 package com.spacetrace.app.ui.common
 
+import android.webkit.MimeTypeMap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,10 +34,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
+import coil.request.ImageRequest
+import coil.request.videoFrameMillis
 import com.spacetrace.app.model.FileEntry
 import com.spacetrace.app.util.FormatUtils
+import java.io.File
 
 /**
  * A single file/folder row. Long-press opens a small menu with "Open with" (when [onOpenWith]
@@ -74,11 +84,7 @@ fun FileRow(
                     .background(MaterialTheme.colorScheme.secondaryContainer),
                 contentAlignment = Alignment.Center,
             ) {
-                Icon(
-                    imageVector = if (entry.isDirectory) Icons.Filled.Folder else Icons.Filled.InsertDriveFile,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                )
+                FileThumbnail(entry)
             }
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
@@ -147,6 +153,49 @@ fun FileRow(
             }
         }
     }
+}
+
+/**
+ * The 40dp leading avatar: a real image/video-frame thumbnail for previewable files, falling
+ * back to the generic folder/file icon for everything else (and while a thumbnail is loading,
+ * or if decoding one fails).
+ */
+@Composable
+private fun FileThumbnail(entry: FileEntry) {
+    if (entry.isDirectory || !isPreviewable(entry)) {
+        Icon(
+            imageVector = if (entry.isDirectory) Icons.Filled.Folder else Icons.Filled.InsertDriveFile,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSecondaryContainer,
+        )
+        return
+    }
+
+    SubcomposeAsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(File(entry.path))
+            .videoFrameMillis(1000)
+            .crossfade(true)
+            .build(),
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        if (painter.state is AsyncImagePainter.State.Success) {
+            SubcomposeAsyncImageContent()
+        } else {
+            Icon(
+                imageVector = Icons.Filled.InsertDriveFile,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSecondaryContainer,
+            )
+        }
+    }
+}
+
+private fun isPreviewable(entry: FileEntry): Boolean {
+    val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(entry.extension.lowercase()) ?: return false
+    return mime.startsWith("image/") || mime.startsWith("video/")
 }
 
 @Composable

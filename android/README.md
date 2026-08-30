@@ -26,6 +26,11 @@ hidden/dotfiles and directories that the Photos/Files apps hide from you.
 - Long-press any file or folder for "Open with" (hands it to another
   installed app via a `FileProvider` content:// URI) and, for files,
   "Delete" (with a confirmation dialog).
+- Image and video files show a real thumbnail (a decoded frame, for
+  video) in place of the generic file icon, via Coil -- everywhere a
+  file list appears (Recent, Storage, Browse), since they all share the
+  same `FileRow`. Falls back to the generic icon while loading, on
+  decode failure, or for any other file type.
 - The eye icon in the top bar toggles whether hidden (dot-prefixed) files
   show up in the Recent/Browse lists. The Storage tab's totals always
   include hidden files, since caches and thumbnails are often the biggest
