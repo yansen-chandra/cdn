@@ -1,0 +1,1824 @@
+{
+ "rates": {
+  "base": "EUR",
+  "date": "2026-10-30",
+  "rates": {
+   "SGD": "1.5",
+   "JPY": "160",
+   "USD": "1.1",
+   "GBP": "0.85",
+   "MYR": "5"
+  }
+ },
+ "parse_value": [
+  {
+   "text": "2.5",
+   "value": "5/2"
+  },
+  {
+   "text": "1,000",
+   "value": "1000/1"
+  },
+  {
+   "text": "1/2",
+   "value": "1/2"
+  },
+  {
+   "text": "1 1/2",
+   "value": "3/2"
+  },
+  {
+   "text": "-40",
+   "value": "-40/1"
+  },
+  {
+   "text": "2.5k",
+   "value": "2500/1"
+  },
+  {
+   "text": "3m",
+   "value": "3000000/1"
+  },
+  {
+   "text": "0",
+   "value": "0/1"
+  },
+  {
+   "text": "five",
+   "value": null
+  },
+  {
+   "text": "1/0",
+   "value": null
+  },
+  {
+   "text": "1 2",
+   "value": null
+  },
+  {
+   "text": "",
+   "value": null
+  }
+ ],
+ "fmt": [
+  {
+   "value": "1/3",
+   "sig": 6,
+   "text": "0.333333"
+  },
+  {
+   "value": "2/3",
+   "sig": 6,
+   "text": "0.666667"
+  },
+  {
+   "value": "1234567/1",
+   "sig": 6,
+   "text": "1234570"
+  },
+  {
+   "value": "123456789/1000000000000",
+   "sig": 6,
+   "text": "0.000123457"
+  },
+  {
+   "value": "-5463/20",
+   "sig": 6,
+   "text": "-273.15"
+  },
+  {
+   "value": "4/3",
+   "sig": 10,
+   "text": "1.333333333"
+  },
+  {
+   "value": "100/1",
+   "sig": 6,
+   "text": "100"
+  },
+  {
+   "value": "1/7",
+   "sig": 3,
+   "text": "0.143"
+  },
+  {
+   "value": "123456789123/1",
+   "sig": 6,
+   "text": "123457000000"
+  },
+  {
+   "value": "5/2",
+   "sig": 1,
+   "text": "2"
+  },
+  {
+   "value": "7/2",
+   "sig": 1,
+   "text": "4"
+  }
+ ],
+ "convert": [
+  {
+   "value": "32",
+   "from": "fahrenheit",
+   "to": "celsius",
+   "ingredient": null,
+   "result": "0/1"
+  },
+  {
+   "value": "-40",
+   "from": "celsius",
+   "to": "fahrenheit",
+   "ingredient": null,
+   "result": "-40/1"
+  },
+  {
+   "value": "0",
+   "from": "kelvin",
+   "to": "celsius",
+   "ingredient": null,
+   "result": "-5463/20"
+  },
+  {
+   "value": "1",
+   "from": "kati",
+   "to": "tahil",
+   "ingredient": null,
+   "result": "16/1"
+  },
+  {
+   "value": "1",
+   "from": "kati",
+   "to": "pound",
+   "ingredient": null,
+   "result": "4/3"
+  },
+  {
+   "value": "1",
+   "from": "chhek",
+   "to": "inch",
+   "ingredient": null,
+   "result": "59/4"
+  },
+  {
+   "value": "1",
+   "from": "mile",
+   "to": "kilometer",
+   "ingredient": null,
+   "result": "25146/15625"
+  },
+  {
+   "value": "1",
+   "from": "acre",
+   "to": "square-foot",
+   "ingredient": null,
+   "result": "43560/1"
+  },
+  {
+   "value": "100",
+   "from": "kilometer-per-hour",
+   "to": "mile-per-hour",
+   "ingredient": null,
+   "result": "781250/12573"
+  },
+  {
+   "value": "1",
+   "from": "tola",
+   "to": "gram",
+   "ingredient": null,
+   "result": "58319019/5000000"
+  },
+  {
+   "value": "5",
+   "from": "liter-per-100-kilometer",
+   "to": "kilometer-per-liter",
+   "ingredient": null,
+   "result": "20/1"
+  },
+  {
+   "value": "30",
+   "from": "mile-per-gallon-us",
+   "to": "liter-per-100-kilometer",
+   "ingredient": null,
+   "result": "112903/14400"
+  },
+  {
+   "value": "2",
+   "from": "cup-us",
+   "to": "gram",
+   "ingredient": "rice-white-uncooked",
+   "result": "18453882447/50000000"
+  },
+  {
+   "value": "500",
+   "from": "gram",
+   "to": "cup-us",
+   "ingredient": "flour-all-purpose",
+   "result": "100000000000/25078353069"
+  },
+  {
+   "value": "2",
+   "from": "cup-us",
+   "to": "gram",
+   "ingredient": null,
+   "error": "Converting volume to weight needs an ingredient (e.g. rice, flour)"
+  },
+  {
+   "value": "5",
+   "from": "kilogram",
+   "to": "centimeter",
+   "ingredient": null,
+   "error": "Can't convert weight to length"
+  },
+  {
+   "value": "0",
+   "from": "liter-per-100-kilometer",
+   "to": "kilometer-per-liter",
+   "ingredient": null,
+   "error": "0 L/100 km has no equivalent"
+  }
+ ],
+ "resolve": [
+  {
+   "term": "gallons",
+   "region": "GB",
+   "prefer_quantity": null,
+   "result": {
+    "id": "gallon-imperial",
+    "domain": "unit",
+    "note": "Assumed imperial gallon"
+   }
+  },
+  {
+   "term": "gallons",
+   "region": "SG",
+   "prefer_quantity": null,
+   "result": {
+    "id": "gallon-us",
+    "domain": "unit",
+    "note": "Assumed US gallon"
+   }
+  },
+  {
+   "term": "cup",
+   "region": "AU",
+   "prefer_quantity": null,
+   "result": {
+    "id": "cup-metric",
+    "domain": "unit",
+    "note": "Assumed metric cup"
+   }
+  },
+  {
+   "term": "cup",
+   "region": "SG",
+   "prefer_quantity": null,
+   "result": {
+    "id": "cup-us",
+    "domain": "unit",
+    "note": "Assumed US cup"
+   }
+  },
+  {
+   "term": "tbsp",
+   "region": "AU",
+   "prefer_quantity": null,
+   "result": {
+    "id": "tablespoon-au",
+    "domain": "unit",
+    "note": "Assumed Australian tablespoon"
+   }
+  },
+  {
+   "term": "oz",
+   "region": "*",
+   "prefer_quantity": null,
+   "result": {
+    "id": "ounce",
+    "domain": "unit",
+    "note": "Read 'oz' as ounce. If the other side is a volume, the fluid ounce is used instead."
+   }
+  },
+  {
+   "term": "oz",
+   "region": "SG",
+   "prefer_quantity": "volume",
+   "result": {
+    "id": "fluid-ounce-us",
+    "domain": "unit",
+    "note": "Read 'oz' as US fluid ounce. If the other side is a volume, the fluid ounce is used instead."
+   }
+  },
+  {
+   "term": "oz",
+   "region": "GB",
+   "prefer_quantity": "volume",
+   "result": {
+    "id": "fluid-ounce-imperial",
+    "domain": "unit",
+    "note": "Read 'oz' as imperial fluid ounce. If the other side is a volume, the fluid ounce is used instead."
+   }
+  },
+  {
+   "term": "catty",
+   "region": "CN",
+   "prefer_quantity": null,
+   "result": {
+    "id": "jin",
+    "domain": "unit",
+    "note": "Assumed jin"
+   }
+  },
+  {
+   "term": "catty",
+   "region": "SG",
+   "prefer_quantity": null,
+   "result": {
+    "id": "kati",
+    "domain": "unit",
+    "note": "Assumed kati"
+   }
+  },
+  {
+   "term": "$",
+   "region": "SG",
+   "prefer_quantity": null,
+   "result": {
+    "id": "SGD",
+    "domain": "currency",
+    "note": "Assumed SGD"
+   }
+  },
+  {
+   "term": "$",
+   "region": "US",
+   "prefer_quantity": null,
+   "result": {
+    "id": "USD",
+    "domain": "currency",
+    "note": "Assumed USD"
+   }
+  },
+  {
+   "term": "¥",
+   "region": "CN",
+   "prefer_quantity": null,
+   "result": {
+    "id": "CNY",
+    "domain": "currency",
+    "note": "Assumed CNY"
+   }
+  },
+  {
+   "term": "sing dollar",
+   "region": "*",
+   "prefer_quantity": null,
+   "result": {
+    "id": "SGD",
+    "domain": "currency",
+    "note": null
+   }
+  },
+  {
+   "term": "rm",
+   "region": "*",
+   "prefer_quantity": null,
+   "result": {
+    "id": "MYR",
+    "domain": "currency",
+    "note": null
+   }
+  },
+  {
+   "term": "KM",
+   "region": "*",
+   "prefer_quantity": null,
+   "result": {
+    "id": "kilometer",
+    "domain": "unit",
+    "note": null
+   }
+  },
+  {
+   "term": "furlongs",
+   "region": "*",
+   "prefer_quantity": null,
+   "result": null
+  },
+  {
+   "term": "",
+   "region": "*",
+   "prefer_quantity": null,
+   "result": null
+  }
+ ],
+ "texts": [
+  {
+   "text": "10 l to gallons",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "10",
+      "unit": "l"
+     }
+    ],
+    "to": [
+     "gallons"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "2.64172",
+      "unit": "gallon-us",
+      "symbol": "gal (US)"
+     }
+    ],
+    "notes": [
+     "Assumed US gallon"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "10 l to gallons",
+   "region": "GB",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "10",
+      "unit": "l"
+     }
+    ],
+    "to": [
+     "gallons"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "2.19969",
+      "unit": "gallon-imperial",
+      "symbol": "gal (UK)"
+     }
+    ],
+    "notes": [
+     "Assumed imperial gallon"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 oz to ml",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "oz"
+     }
+    ],
+    "to": [
+     "ml"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "29.5735",
+      "unit": "milliliter",
+      "symbol": "mL"
+     }
+    ],
+    "notes": [
+     "Read 'oz' as US fluid ounce. If the other side is a volume, the fluid ounce is used instead."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 oz to ml",
+   "region": "GB",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "oz"
+     }
+    ],
+    "to": [
+     "ml"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "28.4131",
+      "unit": "milliliter",
+      "symbol": "mL"
+     }
+    ],
+    "notes": [
+     "Read 'oz' as imperial fluid ounce. If the other side is a volume, the fluid ounce is used instead."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "100 sgd to jpy and myr",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "100",
+      "unit": "sgd"
+     }
+    ],
+    "to": [
+     "jpy",
+     "myr"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "10666.7",
+      "unit": "JPY"
+     },
+     {
+      "value": "333.333",
+      "unit": "MYR"
+     }
+    ],
+    "notes": [
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "$50 to yen",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "50",
+      "unit": "$"
+     }
+    ],
+    "to": [
+     "yen"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "5333.33",
+      "unit": "JPY"
+     }
+    ],
+    "notes": [
+     "Assumed SGD",
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "$50 to yen",
+   "region": "US",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "50",
+      "unit": "$"
+     }
+    ],
+    "to": [
+     "yen"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "7272.73",
+      "unit": "JPY"
+     }
+    ],
+    "notes": [
+     "Assumed USD",
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "3 kati",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "3",
+      "unit": "kati"
+     }
+    ],
+    "to": [],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "1.81437",
+      "unit": "kilogram",
+      "symbol": "kg"
+     },
+     {
+      "value": "1814.37",
+      "unit": "gram",
+      "symbol": "g"
+     },
+     {
+      "value": "4",
+      "unit": "pound",
+      "symbol": "lb"
+     }
+    ],
+    "notes": [
+     "Reference only: only metric units are permitted for trade in Singapore"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "5 ft to cm",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "5",
+      "unit": "ft"
+     }
+    ],
+    "to": [
+     "cm"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "152.4",
+      "unit": "centimeter",
+      "symbol": "cm"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "-40 c to f",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "-40",
+      "unit": "c"
+     }
+    ],
+    "to": [
+     "f"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "-40",
+      "unit": "fahrenheit",
+      "symbol": "°F"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 1/2 cups to ml",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1 1/2",
+      "unit": "cups"
+     }
+    ],
+    "to": [
+     "ml"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "354.882",
+      "unit": "milliliter",
+      "symbol": "mL"
+     }
+    ],
+    "notes": [
+     "Assumed US cup"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 1/2 cups to ml",
+   "region": "AU",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1 1/2",
+      "unit": "cups"
+     }
+    ],
+    "to": [
+     "ml"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "375",
+      "unit": "milliliter",
+      "symbol": "mL"
+     }
+    ],
+    "notes": [
+     "Assumed metric cup"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "100 km/h in mph",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "100",
+      "unit": "km/h"
+     }
+    ],
+    "to": [
+     "mph"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "62.1371",
+      "unit": "mile-per-hour",
+      "symbol": "mph"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "5km to mi",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "5",
+      "unit": "km"
+     }
+    ],
+    "to": [
+     "mi"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "3.10686",
+      "unit": "mile",
+      "symbol": "mi"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "3m to ft",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "3",
+      "unit": "m"
+     }
+    ],
+    "to": [
+     "ft"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "9.84252",
+      "unit": "foot",
+      "symbol": "ft"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "50 sgd -> jpy",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "50",
+      "unit": "sgd"
+     }
+    ],
+    "to": [
+     "jpy"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "5333.33",
+      "unit": "JPY"
+     }
+    ],
+    "notes": [
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "50 sing dollar to yen",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "50",
+      "unit": "sing dollar"
+     }
+    ],
+    "to": [
+     "yen"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "5333.33",
+      "unit": "JPY"
+     }
+    ],
+    "notes": [
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1,000 m to km",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1,000",
+      "unit": "m"
+     }
+    ],
+    "to": [
+     "km"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "1",
+      "unit": "kilometer",
+      "symbol": "km"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "2 kg = lb",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "2",
+      "unit": "kg"
+     }
+    ],
+    "to": [
+     "lb"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "4.40925",
+      "unit": "pound",
+      "symbol": "lb"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "5 ft to cm?",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "5",
+      "unit": "ft"
+     }
+    ],
+    "to": [
+     "cm"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "152.4",
+      "unit": "centimeter",
+      "symbol": "cm"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "100 usd to sgd, myr & jpy",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "100",
+      "unit": "usd"
+     }
+    ],
+    "to": [
+     "sgd",
+     "myr",
+     "jpy"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "136.364",
+      "unit": "SGD"
+     },
+     {
+      "value": "454.545",
+      "unit": "MYR"
+     },
+     {
+      "value": "14545.5",
+      "unit": "JPY"
+     }
+    ],
+    "notes": [
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 gb to mb",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "gb"
+     }
+    ],
+    "to": [
+     "mb"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "1000",
+      "unit": "megabyte",
+      "symbol": "MB"
+     }
+    ],
+    "notes": [
+     "Assumed gigabyte (1000³ bytes). Windows shows GiB as 'GB'.",
+     "Assumed megabyte (1000² bytes). Windows shows MiB as 'MB'."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "30 mpg to l/100km",
+   "region": "GB",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "30",
+      "unit": "mpg"
+     }
+    ],
+    "to": [
+     "l/100km"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "9.41603",
+      "unit": "liter-per-100-kilometer",
+      "symbol": "L/100 km"
+     }
+    ],
+    "notes": [
+     "Assumed mile per imperial gallon"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "5'9 in cm",
+   "region": "SG",
+   "fast_parse": null,
+   "fast_path": false,
+   "outcome": null
+  },
+  {
+   "text": "2 cups rice in grams",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "2",
+      "unit": "cups rice"
+     }
+    ],
+    "to": [
+     "grams"
+    ],
+    "ingredient": null
+   },
+   "fast_path": false,
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [
+     "cups rice"
+    ],
+    "error": null
+   }
+  },
+  {
+   "text": "what's the weather",
+   "region": "SG",
+   "fast_parse": null,
+   "fast_path": false,
+   "outcome": null
+  },
+  {
+   "text": "2.5k usd to sgd",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "2.5",
+      "unit": "k usd"
+     }
+    ],
+    "to": [
+     "sgd"
+    ],
+    "ingredient": null
+   },
+   "fast_path": false,
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [
+     "k usd"
+    ],
+    "error": null
+   }
+  },
+  {
+   "text": "5 kg to cm",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "5",
+      "unit": "kg"
+     }
+    ],
+    "to": [
+     "cm"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "Can't convert weight to length"
+   }
+  },
+  {
+   "text": "10 sgd",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "10",
+      "unit": "sgd"
+     }
+    ],
+    "to": [],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "Pick a target currency"
+   }
+  },
+  {
+   "text": "5 kg to sgd",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "5",
+      "unit": "kg"
+     }
+    ],
+    "to": [
+     "sgd"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "Can't convert a unit to a currency"
+   }
+  },
+  {
+   "text": "$50 sgd to jpy",
+   "region": "SG",
+   "fast_parse": null,
+   "fast_path": false,
+   "outcome": null
+  },
+  {
+   "text": "hello",
+   "region": "SG",
+   "fast_parse": null,
+   "fast_path": false,
+   "outcome": null
+  },
+  {
+   "text": "",
+   "region": "SG",
+   "fast_parse": null,
+   "fast_path": false,
+   "outcome": null
+  },
+  {
+   "text": "1 tbsp to ml",
+   "region": "AU",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "tbsp"
+     }
+    ],
+    "to": [
+     "ml"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "20",
+      "unit": "milliliter",
+      "symbol": "mL"
+     }
+    ],
+    "notes": [
+     "Assumed Australian tablespoon"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 catty to g",
+   "region": "CN",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "catty"
+     }
+    ],
+    "to": [
+     "g"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "500",
+      "unit": "gram",
+      "symbol": "g"
+     }
+    ],
+    "notes": [
+     "Assumed jin"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  }
+ ],
+ "requests": [
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "2",
+      "unit": "cup"
+     }
+    ],
+    "to": [
+     "gram"
+    ],
+    "ingredient": "rice"
+   },
+   "region": "SG",
+   "outcome": {
+    "results": [
+     {
+      "value": "369.078",
+      "unit": "gram",
+      "symbol": "g"
+     }
+    ],
+    "notes": [
+     "Assumed US cup",
+     "Approximate: based on white rice (uncooked) density"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "2",
+      "unit": "cup"
+     }
+    ],
+    "to": [
+     "gram"
+    ],
+    "ingredient": "rice"
+   },
+   "region": "GB",
+   "outcome": {
+    "results": [
+     {
+      "value": "369.078",
+      "unit": "gram",
+      "symbol": "g"
+     }
+    ],
+    "notes": [
+     "Assumed US cup",
+     "Approximate: based on white rice (uncooked) density"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "5",
+      "unit": "foot"
+     },
+     {
+      "value": "9",
+      "unit": "inch"
+     }
+    ],
+    "to": [
+     "centimeter"
+    ],
+    "ingredient": null
+   },
+   "region": "SG",
+   "outcome": {
+    "results": [
+     {
+      "value": "175.26",
+      "unit": "centimeter",
+      "symbol": "cm"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "5",
+      "unit": "foot"
+     },
+     {
+      "value": "9",
+      "unit": "inch"
+     }
+    ],
+    "to": [
+     "centimeter"
+    ],
+    "ingredient": null
+   },
+   "region": "GB",
+   "outcome": {
+    "results": [
+     {
+      "value": "175.26",
+      "unit": "centimeter",
+      "symbol": "cm"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "2",
+      "unit": "furlongs"
+     }
+    ],
+    "to": [
+     "meter"
+    ],
+    "ingredient": null
+   },
+   "region": "SG",
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [
+     "furlongs"
+    ],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "2",
+      "unit": "furlongs"
+     }
+    ],
+    "to": [
+     "meter"
+    ],
+    "ingredient": null
+   },
+   "region": "GB",
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [
+     "furlongs"
+    ],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "2",
+      "unit": "cup"
+     }
+    ],
+    "to": [
+     "gram"
+    ],
+    "ingredient": "unobtainium"
+   },
+   "region": "SG",
+   "outcome": {
+    "results": [],
+    "notes": [
+     "Assumed US cup"
+    ],
+    "unresolved": [
+     "unobtainium"
+    ],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "2",
+      "unit": "cup"
+     }
+    ],
+    "to": [
+     "gram"
+    ],
+    "ingredient": "unobtainium"
+   },
+   "region": "GB",
+   "outcome": {
+    "results": [],
+    "notes": [
+     "Assumed US cup"
+    ],
+    "unresolved": [
+     "unobtainium"
+    ],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "currency",
+    "parts": [
+     {
+      "value": "20",
+      "unit": "GBP"
+     }
+    ],
+    "to": [
+     "EUR"
+    ],
+    "ingredient": null
+   },
+   "region": "SG",
+   "outcome": {
+    "results": [
+     {
+      "value": "23.5294",
+      "unit": "EUR"
+     }
+    ],
+    "notes": [
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "currency",
+    "parts": [
+     {
+      "value": "20",
+      "unit": "GBP"
+     }
+    ],
+    "to": [
+     "EUR"
+    ],
+    "ingredient": null
+   },
+   "region": "GB",
+   "outcome": {
+    "results": [
+     {
+      "value": "23.5294",
+      "unit": "EUR"
+     }
+    ],
+    "notes": [
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "abc",
+      "unit": "meter"
+     }
+    ],
+    "to": [
+     "foot"
+    ],
+    "ingredient": null
+   },
+   "region": "SG",
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "Not a number: 'abc'"
+   }
+  },
+  {
+   "request": {
+    "intent": "convert",
+    "domain": "unit",
+    "parts": [
+     {
+      "value": "abc",
+      "unit": "meter"
+     }
+    ],
+    "to": [
+     "foot"
+    ],
+    "ingredient": null
+   },
+   "region": "GB",
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "Not a number: 'abc'"
+   }
+  },
+  {
+   "request": {
+    "intent": "unsupported",
+    "domain": null,
+    "parts": [],
+    "to": [],
+    "ingredient": null
+   },
+   "region": "SG",
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "unsupported"
+   }
+  },
+  {
+   "request": {
+    "intent": "unsupported",
+    "domain": null,
+    "parts": [],
+    "to": [],
+    "ingredient": null
+   },
+   "region": "GB",
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "unsupported"
+   }
+  },
+  {
+   "request": {
+    "intent": "incomplete",
+    "domain": null,
+    "parts": [
+     {
+      "value": "50",
+      "unit": ""
+     }
+    ],
+    "to": [],
+    "ingredient": null
+   },
+   "region": "SG",
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "incomplete"
+   }
+  },
+  {
+   "request": {
+    "intent": "incomplete",
+    "domain": null,
+    "parts": [
+     {
+      "value": "50",
+      "unit": ""
+     }
+    ],
+    "to": [],
+    "ingredient": null
+   },
+   "region": "GB",
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "incomplete"
+   }
+  }
+ ]
+}

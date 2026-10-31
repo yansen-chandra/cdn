@@ -210,3 +210,10 @@ def test_fast_path_defers_to_llm(text):
 def test_currency_math():
     assert convert_currency(Fraction(1), "EUR", "SGD", RATES) == Fraction("1.5")
     assert convert_currency(Fraction(150), "SGD", "EUR", RATES) == 100
+
+
+# ---------------- Kotlin port oracle ---------------------------------------
+
+def test_golden_file_is_current():
+    from make_golden import OUT, render
+    assert OUT.read_text(encoding="utf-8") == render(), "run: python make_golden.py"
