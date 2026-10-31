@@ -116,7 +116,7 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
 
     fun selectCategory(c: String) {
         if (c == category) return
-        setCategory(c)
+        switchCategory(c)
         loadPair(c)
     }
 
@@ -126,7 +126,7 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
     fun pick(choice: Choice, side: Side) {
         val c = if (choice.domain == CURRENCY) CURRENCY else ml.units.getValue(choice.id).quantity
         if (c != category) {
-            setCategory(c)
+            switchCategory(c)
             val (f, t) = defaultPair(c)
             val other = if (side == Side.From) t else f
             val o = if (other == choice.id) options(c).first { it != choice.id } else other
@@ -141,7 +141,7 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun applyPair(p: UnitPair) {
-        if (p.category != category) setCategory(p.category)
+        if (p.category != category) switchCategory(p.category)
         setPair(p.from, p.to)
     }
 
@@ -166,7 +166,7 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
             src.id
         }
         val c = if (src.domain == "currency") CURRENCY else ml.units.getValue(srcId).quantity
-        setCategory(c)
+        switchCategory(c)
         val other = dst?.id ?: defaultPair(c).toList().first { it != srcId }
         setPair(srcId, other)
         onAmount(req.parts[0].value)
@@ -422,7 +422,7 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
         to = t
     }
 
-    private fun setCategory(c: String) {
+    private fun switchCategory(c: String) {
         category = c
         store.category = c
         recentCategories = (listOf(c) + recentCategories.filter { it != c }).take(MAX_RECENT_CATEGORIES)
