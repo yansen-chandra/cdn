@@ -115,3 +115,11 @@ python convert.py "50 sgd to jpy" --rates rates.json   # rates: {"base","date","
 - ML Kit Prompt API: https://developer.android.com/blog/posts/ml-kit-s-prompt-api-unlock-custom-on-device-gemini-nano-experiences
 - CLDR unit conversions: https://www.unicode.org/cldr/charts/41/supplemental/unit_conversions.html (use `units.xml` for data)
 - Singapore units: https://en.wikipedia.org/wiki/Singaporean_units_of_measurement (Weights and Measures Act 1975, Third Schedule)
+
+## Android app (`android/`, started 31 Oct)
+
+- `engine/`: Kotlin port of `convert.py` (pure JVM, exact `Rational` on `BigInteger`). `GoldenTest` replays every answer in `converter/golden.json`; regenerate that file with `python make_golden.py` after engine or master-list changes (a Python test fails if it is stale).
+- `app/`: Jetpack Compose free-tier UI: smart input with fast parser + autocomplete chips, category chips, amount/from/to with swap, live result and common targets (tap to copy), unit picker searching every alias, cached currency rates with date. Master list is bundled from `converter/master-list.sample.json` at build time.
+- Build: `.github/workflows/android-apk.yml` runs engine tests and `assembleDebug` on every push; download `converter-debug-apk` from the run. `app/debug.keystore` is a checked-in debug key so CI builds install over each other; release needs a real key.
+- Rates URL: jsDelivr then raw GitHub for `converter/rates.json` on the branch given by `-PratesBranch` (CI passes the current branch).
+- Not done yet: home-screen widget, favourite pairs, region switcher chip, ads, Play Billing, premium AI input.

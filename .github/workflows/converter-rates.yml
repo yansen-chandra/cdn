@@ -1,10 +1,14 @@
 name: converter rates
 
 # ECB reference rates are published around 16:00 CET on working days.
+# GitHub only runs schedules from the default branch, so while the app lives on a
+# feature branch the job also runs when the job itself changes on that branch.
 on:
   schedule:
     - cron: "37 16 * * 1-5"
   workflow_dispatch:
+  push:
+    paths: ["converter/fetch_rates.py", ".github/workflows/converter-rates.yml"]
 
 permissions:
   contents: write
@@ -33,4 +37,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "converter: update rates $(python -c 'import json;print(json.load(open("converter/rates.json"))["date"])')"
-          git push
+          git push origin HEAD:${{ github.ref_name }}
