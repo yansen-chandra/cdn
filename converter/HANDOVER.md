@@ -123,3 +123,4 @@ python convert.py "50 sgd to jpy" --rates rates.json   # rates: {"base","date","
 - Build: `.github/workflows/android-apk.yml` runs engine tests and `assembleDebug` on every push; download `converter-debug-apk` from the run. `app/debug.keystore` is a checked-in debug key so CI builds install over each other; release needs a real key.
 - Rates URL: jsDelivr then raw GitHub for `converter/rates.json` on the branch given by `-PratesBranch` (CI passes the current branch).
 - Not done yet: home-screen widget, favourite pairs, region switcher chip, ads, Play Billing, premium AI input.
+- Rates on the phone (changed 31 Oct, owner's call): Refresh, and the automatic refresh when the saved rates are older than 6 h, download straight from Frankfurter (`api.frankfurter.dev/v1/latest?base=EUR`), validate with `Rates.fromProvider` and save to the app cache. The repo's `rates.json` is only a backup when Frankfurter is unreachable. A download never replaces newer cached rates.

@@ -4,12 +4,13 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-// Rates come from the daily job in this repo (converter/fetch_rates.py), served
-// by jsDelivr with raw GitHub as a fallback. Override with -PratesBranch=master.
+// Refresh downloads rates straight from Frankfurter. Backup: the rates.json the job in
+// this repo publishes (converter/fetch_rates.py). Override the branch with -PratesBranch=...
+val frankfurterUrl = "https://api.frankfurter.dev/v1/latest?base=EUR"
 val ratesBranch = providers.gradleProperty("ratesBranch").getOrElse("ccr-288fe63e-l5ylhr")
 val ratesUrls = listOf(
-    "https://cdn.jsdelivr.net/gh/yansen-chandra/cdn@$ratesBranch/converter/rates.json",
     "https://raw.githubusercontent.com/yansen-chandra/cdn/$ratesBranch/converter/rates.json",
+    "https://cdn.jsdelivr.net/gh/yansen-chandra/cdn@$ratesBranch/converter/rates.json",
 )
 
 android {
@@ -22,6 +23,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "0.1.0"
+        buildConfigField("String", "FRANKFURTER_URL", "\"$frankfurterUrl\"")
         buildConfigField("String", "RATES_URLS", "\"${ratesUrls.joinToString(" ")}\"")
     }
 

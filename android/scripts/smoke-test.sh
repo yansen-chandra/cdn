@@ -20,3 +20,6 @@ if grep -q "FATAL EXCEPTION" logcat.txt || ! adb shell pidof "$PKG" > /dev/null;
     exit 1
 fi
 echo "App launched and is still running."
+# First launch has no cached rates, so the app downloads them (same path as Refresh).
+echo "Rates log:"
+grep -E " (I|W) Rates" logcat.txt || echo "(no rates log lines)"

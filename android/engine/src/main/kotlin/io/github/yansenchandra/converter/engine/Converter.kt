@@ -1,6 +1,9 @@
 package io.github.yansenchandra.converter.engine
 
 import org.json.JSONObject
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.format.DateTimeParseException
 
 // --------------------------------------------------------------------------
 // Currency
@@ -10,7 +13,51 @@ import org.json.JSONObject
 data class Rates(val base: String, val date: String, val rates: Map<String, String>) {
     val codes: Set<String> get() = rates.keys + base
 
+    /** Same shape as the server's rates.json, so the cache reads back with [parse]. */
+    fun toJson(): String = JSONObject()
+        .put("base", base)
+        .put("date", date)
+        .put("rates", JSONObject().also { o -> rates.forEach { (k, v) -> o.put(k, v) } })
+        .toString()
+
     companion object {
+        const val MIN_CURRENCIES = 20
+
+        /**
+         * Validates a Frankfurter response ({"amount", "base", "date", "rates": {CODE: number}})
+         * and converts it to exact decimal strings. Same checks as converter/fetch_rates.py,
+         * except no maximum age: the newest rates the provider has are still the best we can get.
+         */
+        fun fromProvider(json: String, today: LocalDate = LocalDate.now()): Rates {
+            val o = JSONObject(json)
+            val base = o.optString("base")
+            require(CODE.matches(base)) { "Bad base currency: $base" }
+            val date = o.optString("date")
+            val day = try {
+                LocalDate.parse(date)
+            } catch (e: DateTimeParseException) {
+                throw IllegalArgumentException("Bad date: $date")
+            }
+            require(!day.isAfter(today.plusDays(1))) { "Rate date $date is in the future" }
+
+            val raw = o.optJSONObject("rates") ?: throw IllegalArgumentException("Response has no rates")
+            val rates = sortedMapOf<String, String>()
+            for (code in raw.keys()) {
+                require(CODE.matches(code)) { "Bad currency code: $code" }
+                val d = try {
+                    BigDecimal(raw.get(code).toString())
+                } catch (e: NumberFormatException) {
+                    throw IllegalArgumentException("Bad rate for $code")
+                }
+                require(d.signum() > 0) { "Bad rate for $code" }
+                if (code != base) rates[code] = d.stripTrailingZeros().toPlainString()
+            }
+            require(rates.size >= MIN_CURRENCIES) { "Only ${rates.size} rates, expected at least $MIN_CURRENCIES" }
+            return Rates(base, date, rates)
+        }
+
+        private val CODE = Regex("[A-Z]{3}")
+
         fun parse(json: String): Rates {
             val o = JSONObject(json)
             val r = o.getJSONObject("rates")

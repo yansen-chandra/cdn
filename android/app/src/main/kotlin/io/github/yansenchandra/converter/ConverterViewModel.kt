@@ -44,7 +44,7 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
         ?.takeIf { it in ml.currencyCodes } ?: "USD"
 
     private val prefs = app.getSharedPreferences("converter", Context.MODE_PRIVATE)
-    private val ratesRepo = RatesRepository(app.filesDir, BuildConfig.RATES_URLS.split(" "))
+    private val ratesRepo = RatesRepository(app.filesDir, BuildConfig.FRANKFURTER_URL, BuildConfig.RATES_URLS.split(" "))
 
     val categories: List<Pair<String, String>> = ml.quantities.values.map { it.id to it.name } + (CURRENCY to "Currency")
 
@@ -61,6 +61,10 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
     var rates by mutableStateOf<Rates?>(null)
         private set
     var ratesState by mutableStateOf(RatesState.Idle)
+        private set
+
+    /** Result of the last refresh, shown under the currency converter. */
+    var ratesMessage by mutableStateOf<String?>(null)
         private set
     private var recents by mutableStateOf(prefs.getString("recents", "")!!.split(",").filter { it.isNotBlank() })
 
@@ -133,14 +137,22 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
         query = ""
     }
 
+    /** Downloads the latest rates (Frankfurter first) and saves them on the phone. */
     fun refreshRates() {
         if (ratesState == RatesState.Loading) return
         ratesState = RatesState.Loading
         viewModelScope.launch {
             ratesState = try {
-                rates = ratesRepo.download()
+                val r = ratesRepo.download()
+                rates = r.rates
+                ratesMessage = when {
+                    !r.changed -> "Already up to date"
+                    r.source == "Frankfurter" -> "Updated from Frankfurter"
+                    else -> "Updated from backup (Frankfurter unreachable)"
+                }
                 RatesState.Idle
             } catch (e: Exception) {
+                ratesMessage = null
                 RatesState.Failed
             }
         }

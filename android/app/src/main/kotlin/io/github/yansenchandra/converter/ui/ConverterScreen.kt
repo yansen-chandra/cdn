@@ -214,7 +214,7 @@ private fun RatesFooter(vm: ConverterViewModel) {
             vm.ratesState == RatesState.Loading -> "Updating rates…"
             vm.ratesState == RatesState.Failed && vm.rates != null -> "Offline: using rates from ${vm.rates!!.date}"
             vm.ratesState == RatesState.Failed -> "Couldn't download rates"
-            vm.rates != null -> "Rates as of ${vm.rates!!.date}"
+            vm.rates != null -> listOfNotNull(vm.ratesMessage, "Rates as of ${vm.rates!!.date}").joinToString(" · ")
             else -> "No rates yet"
         }
         Text(text, style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
