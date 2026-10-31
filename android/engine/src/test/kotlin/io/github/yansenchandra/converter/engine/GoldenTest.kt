@@ -55,7 +55,9 @@ class GoldenTest {
     fun resolve() = cases("resolve") { c ->
         val r = ml.resolve(c.getString("term"), c.getString("region"), preferQuantity = c.optStringOrNull("prefer_quantity"))
         val e = c.optJSONObject("result")
-        val expected = e?.let { Resolved(it.getString("id"), it.getString("domain"), it.optStringOrNull("note")) }
+        val expected = e?.let {
+            Resolved(it.getString("id"), it.getString("domain"), it.optStringOrNull("note"), it.getJSONArray("candidates").strings())
+        }
         assertEquals(expected, r, c.toString())
     }
 
@@ -114,6 +116,9 @@ class GoldenTest {
         notes = getJSONArray("notes").strings(),
         unresolved = getJSONArray("unresolved").strings(),
         error = optStringOrNull("error"),
+        assumptions = getJSONArray("assumptions").objects().map {
+            Assumption(it.getString("role"), it.getString("term"), it.getString("chosen"), it.getJSONArray("candidates").strings())
+        },
     )
 
     private fun JSONObject.optStringOrNull(k: String): String? = if (isNull(k)) null else getString(k)

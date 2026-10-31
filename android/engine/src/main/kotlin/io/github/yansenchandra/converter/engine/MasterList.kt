@@ -48,8 +48,13 @@ data class Ambiguity(
     val note: String?,
 )
 
-/** A unit id or ISO currency code, plus a note when an assumption was made. */
-data class Resolved(val id: String, val domain: String, val note: String? = null)
+/** A unit id or ISO currency code, plus a note and the alternatives when an assumption was made. */
+data class Resolved(
+    val id: String,
+    val domain: String,
+    val note: String? = null,
+    val candidates: List<String> = emptyList(),
+)
 
 class MasterList(val data: JSONObject) {
     val version: String = data.getString("version")
@@ -232,7 +237,7 @@ class MasterList(val data: JSONObject) {
             }
             val label = if (dom == "unit") units.getValue(choice).nameOne else choice
             val note = (amb.note ?: "Assumed {unit}").replace("{unit}", label)
-            return Resolved(choice, dom, note)
+            return Resolved(choice, dom, note, amb.candidates)
         }
         return null
     }

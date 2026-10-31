@@ -140,11 +140,15 @@ fun fastPath(text: String, ml: MasterList, region: String = "*"): Request? {
 /** [symbol] is null for currencies; [unit] is the unit id or currency code. */
 data class ResultItem(val value: String, val unit: String, val symbol: String?, val exact: Rational)
 
+/** An ambiguous [term] the region decided; [role] is "from" or "to". */
+data class Assumption(val role: String, val term: String, val chosen: String, val candidates: List<String>)
+
 data class Outcome(
     val results: List<ResultItem> = emptyList(),
     val notes: List<String> = emptyList(),
     val unresolved: List<String> = emptyList(),
     val error: String? = null,
+    val assumptions: List<Assumption> = emptyList(),
 )
 
 fun process(request: Request, ml: MasterList, region: String = "*", rates: Rates? = null, sig: Int = 6): Outcome {
@@ -154,6 +158,12 @@ fun process(request: Request, ml: MasterList, region: String = "*", rates: Rates
     val domain = request.domain
     val notes = mutableListOf<String>()
     val unresolved = mutableListOf<String>()
+    val assumptions = mutableListOf<Assumption>()
+    fun assume(role: String, term: String, r: Resolved) {
+        if (r.note == null) return
+        notes += r.note
+        assumptions += Assumption(role, term.trim().lowercase(), r.id, r.candidates)
+    }
 
     val parts = try {
         request.parts.map { parseValue(it.value) to it.unit }
@@ -163,36 +173,38 @@ fun process(request: Request, ml: MasterList, region: String = "*", rates: Rates
 
     // Resolve targets first: their quantity helps pick ambiguous source units.
     var targets = mutableListOf<Resolved>()
+    val targetTerms = mutableListOf<String>()
     for (t in request.to) {
         val r = ml.resolve(t, region, domain)
-        if (r == null) unresolved += t else targets += r
+        if (r == null) unresolved += t else { targets += r; targetTerms += t }
     }
     val targetQ = targets.firstOrNull { it.domain == "unit" }?.let { ml.units.getValue(it.id).quantity }
 
     val sources = mutableListOf<Pair<Rational, Resolved>>()
+    val sourceTerms = mutableListOf<String>()
     for ((v, term) in parts) {
         val r = ml.resolve(term, region, domain, preferQuantity = targetQ)
-        if (r == null) unresolved += term else sources += v to r
+        if (r == null) unresolved += term else { sources += v to r; sourceTerms += term }
     }
     if (unresolved.isNotEmpty()) return Outcome(unresolved = unresolved)
     if (sources.isEmpty()) return Outcome(error = "Nothing to convert")
 
     val srcDomain = sources[0].second.domain
     if (sources.any { it.second.domain != srcDomain }) return Outcome(error = "Mixed units and currencies")
-    sources.forEach { (_, r) -> r.note?.let { notes += it } }
+    sources.zip(sourceTerms).forEach { (s, term) -> assume("from", term, s.second) }
 
     if (targets.isEmpty()) { // no target given: use the quantity's common targets
-        if (srcDomain != "unit") return Outcome(notes = notes, error = "Pick a target currency")
+        if (srcDomain != "unit") return Outcome(notes = notes, error = "Pick a target currency", assumptions = assumptions)
         val q = ml.units.getValue(sources[0].second.id).quantity
         val srcIds = sources.map { it.second.id }.toSet()
         targets = ml.quantities.getValue(q).commonTargets.filter { it !in srcIds }
             .map { Resolved(it, "unit") }.toMutableList()
     }
-    targets.forEach { r -> r.note?.let { notes += it } }
+    targets.zip(targetTerms).forEach { (r, term) -> assume("to", term, r) } // common targets are never ambiguous
 
     val ingredient = ml.resolveIngredient(request.ingredient)
     if (!request.ingredient.isNullOrEmpty() && ingredient == null) {
-        return Outcome(notes = notes, unresolved = listOf(request.ingredient))
+        return Outcome(notes = notes, unresolved = listOf(request.ingredient), assumptions = assumptions)
     }
 
     val results = mutableListOf<ResultItem>()
@@ -211,7 +223,7 @@ fun process(request: Request, ml: MasterList, region: String = "*", rates: Rates
             }
         }
     } catch (e: ConversionError) {
-        return Outcome(results, notes, error = e.message)
+        return Outcome(results, notes, error = e.message, assumptions = assumptions)
     }
 
     if (srcDomain == "currency") notes += ml.attribution.replace("{date}", rates!!.date)
@@ -220,7 +232,7 @@ fun process(request: Request, ml: MasterList, region: String = "*", rates: Rates
     }
     val used = targets.map { it.id } + sources.map { it.second.id }
     if (srcDomain == "unit" && used.any { referenceOnly(ml.units.getValue(it)) }) notes += REFERENCE_ONLY
-    return Outcome(results, notes.distinct())
+    return Outcome(results, notes.distinct(), assumptions = assumptions)
 }
 
 const val REFERENCE_ONLY = "Reference only: only metric units are permitted for trade in Singapore"

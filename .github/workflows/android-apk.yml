@@ -24,12 +24,53 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: gradle/actions/setup-gradle@v4
+      # Optional Play upload key. Add these repository secrets to sign release builds with it:
+      # RELEASE_KEYSTORE_BASE64 (base64 of the .jks), RELEASE_KEYSTORE_PASSWORD, RELEASE_KEY_ALIAS,
+      # RELEASE_KEY_PASSWORD. Without them the release build is signed with the debug key.
+      - name: Release signing key
+        env:
+          KEYSTORE_B64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "RELEASE_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+            echo "Signing release with the upload key"
+          else
+            echo "No upload key secret: release is signed with the debug key"
+          fi
       # Engine tests replay the Python reference answers (converter/golden.json).
-      - run: ./gradlew --no-daemon :engine:test :app:assembleDebug -PratesBranch=${{ github.head_ref || github.ref_name }}
+      - name: Test and build
+        env:
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: >-
+          ./gradlew --no-daemon :engine:test
+          :app:assembleDebug :app:assembleDebugAndroidTest :app:assembleRelease :app:bundleRelease
+          -PratesBranch=${{ github.head_ref || github.ref_name }} -PversionCode=${{ github.run_number }}
+      - name: Collect outputs
+        run: |
+          mkdir -p ../dist
+          cp app/build/outputs/apk/debug/app-debug.apk ../dist/
+          cp app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk ../dist/
+          cp app/build/outputs/apk/release/app-release.apk ../dist/
+          cp app/build/outputs/bundle/release/app-release.aab ../dist/
       - uses: actions/upload-artifact@v4
         with:
           name: converter-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: dist/app-debug.apk
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: converter-release
+          path: |
+            dist/app-release.apk
+            dist/app-release.aab
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-apk
+          path: dist/app-debug-androidTest.apk
           if-no-files-found: error
       - if: failure()
         uses: actions/upload-artifact@v4
@@ -37,8 +78,8 @@ jobs:
           name: test-reports
           path: android/engine/build/reports/tests/
 
-  # Launch the APK on an emulator: catches crashes that JVM tests can't (Android runtime differences).
-  smoke:
+  # UI tests on the debug build, then a launch check of the shrunk (R8) release build.
+  emulator:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -46,6 +87,15 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: converter-debug-apk
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: converter-release
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: ui-test-apk
+          path: dist
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -57,11 +107,15 @@ jobs:
           arch: x86_64
           target: google_apis
           disable-animations: true
-          script: android/scripts/smoke-test.sh app-debug.apk
+          script: |
+            android/scripts/ui-test.sh dist/app-debug.apk dist/app-debug-androidTest.apk
+            android/scripts/smoke-test.sh dist/app-release.apk
       - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: smoke-test
+          name: emulator-results
           path: |
+            instrument.txt
+            ui-test-logcat.txt
             logcat.txt
             screenshot.png

@@ -134,6 +134,7 @@ class Resolved:
     id: str                 # unit id or ISO currency code
     domain: str             # "unit" | "currency"
     note: str | None = None # shown to the user when an assumption was made
+    candidates: tuple[str, ...] = ()  # the alternatives when the term was ambiguous
 
 
 class MasterList:
@@ -286,7 +287,7 @@ class MasterList:
                         choice = (regional or same_q)[0]
                 label = self.units[choice].name_one if dom == "unit" else choice
                 note = amb.get("note", "Assumed {unit}").replace("{unit}", label)
-                return Resolved(choice, dom, note)
+                return Resolved(choice, dom, note, tuple(amb["candidates"]))
         return None
 
     def resolve_ingredient(self, term: str | None) -> str | None:
@@ -398,8 +399,16 @@ def fast_path(text: str, ml: MasterList, region: str = "*") -> dict | None:
 
 def process(request: dict, ml: MasterList, region: str = "*",
             rates: dict | None = None, sig: int = 6) -> dict:
-    """Returns {"results": [...], "notes": [...], "unresolved": [...], "error": str|None}."""
-    out = {"results": [], "notes": [], "unresolved": [], "error": None}
+    """Returns {"results": [...], "notes": [...], "unresolved": [...], "error": str|None,
+    "assumptions": [...]}. Each assumption names an ambiguous term the region decided
+    ({"role": "from"|"to", "term", "chosen", "candidates"}) so the app can offer the others."""
+    out = {"results": [], "notes": [], "unresolved": [], "error": None, "assumptions": []}
+
+    def assume(role: str, term: str, r: Resolved) -> None:
+        if r.note:
+            out["notes"].append(r.note)
+            out["assumptions"].append({"role": role, "term": term.strip().lower(), "chosen": r.id,
+                                       "candidates": list(r.candidates)})
     if request.get("intent") != "convert":
         out["error"] = "incomplete" if request.get("intent") == "incomplete" else "unsupported"
         return out
@@ -412,22 +421,24 @@ def process(request: dict, ml: MasterList, region: str = "*",
         return out
 
     # Resolve targets first: their quantity helps pick ambiguous source units.
-    targets = []
+    targets, target_terms = [], []
     for t in request.get("to", []):
         r = ml.resolve(t, region, domain)
         if r is None:
             out["unresolved"].append(t)
         else:
             targets.append(r)
+            target_terms.append(t)
     target_q = next((ml.units[r.id].quantity for r in targets if r.domain == "unit"), None)
 
-    sources = []
+    sources, source_terms = [], []
     for v, term in parts:
         r = ml.resolve(term, region, domain, prefer_quantity=target_q)
         if r is None:
             out["unresolved"].append(term)
         else:
             sources.append((v, r))
+            source_terms.append(term)
     if out["unresolved"]:
         return out
 
@@ -435,9 +446,8 @@ def process(request: dict, ml: MasterList, region: str = "*",
     if any(r.domain != src_domain for _, r in sources):
         out["error"] = "Mixed units and currencies"
         return out
-    for _, r in sources:
-        if r.note:
-            out["notes"].append(r.note)
+    for (_, r), term in zip(sources, source_terms):
+        assume("from", term, r)
 
     if not targets:  # no target given: use the quantity's common targets
         if src_domain == "unit":
@@ -448,9 +458,8 @@ def process(request: dict, ml: MasterList, region: str = "*",
             out["error"] = "Pick a target currency"
             return out
 
-    for r in targets:
-        if r.note:
-            out["notes"].append(r.note)
+    for r, term in zip(targets, target_terms):  # common targets are never ambiguous
+        assume("to", term, r)
 
     ingredient = ml.resolve_ingredient(request.get("ingredient"))
     if request.get("ingredient") and not ingredient:

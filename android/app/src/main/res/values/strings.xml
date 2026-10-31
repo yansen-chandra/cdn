@@ -1,4 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Converter</string>
+
+    <!-- Smart input -->
+    <string name="query_label">Type a conversion</string>
+    <string name="query_placeholder">5 ft to cm · 100 sgd to myr</string>
+    <string name="clear">Clear</string>
+    <string name="edit_below">Edit below</string>
+    <string name="assumed_label">\"%1$s\" means:</string>
+    <string name="msg_type_hint">Type an amount and a unit, e.g. 5 ft to cm</string>
+    <string name="msg_unknown_unit">Unknown unit: %1$s. Pick units below.</string>
+
+    <!-- Converter -->
+    <string name="all_categories">All ▾</string>
+    <string name="categories_title">Categories</string>
+    <string name="units_count">%1$d units</string>
+    <string name="category_currency">Currency</string>
+    <string name="amount_label">Amount</string>
+    <string name="swap">Swap units</string>
+    <string name="favourite_add">Add pair to favourites</string>
+    <string name="favourite_remove">Remove pair from favourites</string>
+    <string name="copy_action">Copy</string>
+    <string name="copied">Copied %1$s</string>
+    <string name="msg_not_number">Not a number</string>
+    <string name="note_approximate">Approximate value</string>
+
+    <!-- Unit picker -->
+    <string name="picker_from">Convert from</string>
+    <string name="picker_to">Convert to</string>
+    <string name="picker_placeholder">Search: lbs, sing dollar, kati…</string>
+    <string name="picker_no_match">No match for \"%1$s\"</string>
+
+    <!-- Rates -->
+    <string name="refresh">Refresh</string>
+    <string name="msg_downloading">Downloading rates…</string>
+    <string name="msg_no_rates">Rates not downloaded yet. Connect and tap Refresh.</string>
+    <string name="msg_no_rate_for">No rate for %1$s</string>
+    <string name="rates_updating">Updating rates…</string>
+    <string name="rates_offline">Offline: using rates from %1$s</string>
+    <string name="rates_failed">Couldn\'t download rates</string>
+    <string name="rates_stale">Rates are %1$d days old (%2$s). Tap Refresh.</string>
+    <string name="rates_as_of">Rates as of %1$s</string>
+    <string name="rates_none">No rates yet</string>
+    <string name="rates_up_to_date">Already up to date</string>
+    <string name="rates_updated_frankfurter">Updated from Frankfurter</string>
+    <string name="rates_updated_backup">Updated from backup (Frankfurter unreachable)</string>
+
+    <!-- History -->
+    <string name="history">History</string>
+    <string name="history_empty">No conversions yet</string>
+    <string name="clear_history">Clear</string>
+
+    <!-- Widget -->
+    <string name="widget_name">Converter</string>
+    <string name="widget_description">Your favourite conversion at a glance</string>
+    <string name="widget_empty">Open Converter and star a pair</string>
+    <string name="widget_rates">Rates %1$s</string>
 </resources>

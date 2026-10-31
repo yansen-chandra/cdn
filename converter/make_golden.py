@@ -114,7 +114,8 @@ def build() -> dict:
     for term, region, q in RESOLVE:
         r = ml.resolve(term, region, prefer_quantity=q)
         g["resolve"].append({"term": term, "region": region, "prefer_quantity": q,
-                             "result": None if r is None else {"id": r.id, "domain": r.domain, "note": r.note}})
+                             "result": None if r is None else {"id": r.id, "domain": r.domain, "note": r.note,
+                                                                "candidates": list(r.candidates)}})
 
     for text, region in TEXTS:
         req = fast_parse(text)

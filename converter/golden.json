@@ -289,7 +289,11 @@
    "result": {
     "id": "gallon-imperial",
     "domain": "unit",
-    "note": "Assumed imperial gallon"
+    "note": "Assumed imperial gallon",
+    "candidates": [
+     "gallon-us",
+     "gallon-imperial"
+    ]
    }
   },
   {
@@ -299,7 +303,11 @@
    "result": {
     "id": "gallon-us",
     "domain": "unit",
-    "note": "Assumed US gallon"
+    "note": "Assumed US gallon",
+    "candidates": [
+     "gallon-us",
+     "gallon-imperial"
+    ]
    }
   },
   {
@@ -309,7 +317,12 @@
    "result": {
     "id": "cup-metric",
     "domain": "unit",
-    "note": "Assumed metric cup"
+    "note": "Assumed metric cup",
+    "candidates": [
+     "cup-us",
+     "cup-metric",
+     "cup-us-legal"
+    ]
    }
   },
   {
@@ -319,7 +332,12 @@
    "result": {
     "id": "cup-us",
     "domain": "unit",
-    "note": "Assumed US cup"
+    "note": "Assumed US cup",
+    "candidates": [
+     "cup-us",
+     "cup-metric",
+     "cup-us-legal"
+    ]
    }
   },
   {
@@ -329,7 +347,12 @@
    "result": {
     "id": "tablespoon-au",
     "domain": "unit",
-    "note": "Assumed Australian tablespoon"
+    "note": "Assumed Australian tablespoon",
+    "candidates": [
+     "tablespoon-us",
+     "tablespoon-metric",
+     "tablespoon-au"
+    ]
    }
   },
   {
@@ -339,7 +362,12 @@
    "result": {
     "id": "ounce",
     "domain": "unit",
-    "note": "Read 'oz' as ounce. If the other side is a volume, the fluid ounce is used instead."
+    "note": "Read 'oz' as ounce. If the other side is a volume, the fluid ounce is used instead.",
+    "candidates": [
+     "ounce",
+     "fluid-ounce-us",
+     "fluid-ounce-imperial"
+    ]
    }
   },
   {
@@ -349,7 +377,12 @@
    "result": {
     "id": "fluid-ounce-us",
     "domain": "unit",
-    "note": "Read 'oz' as US fluid ounce. If the other side is a volume, the fluid ounce is used instead."
+    "note": "Read 'oz' as US fluid ounce. If the other side is a volume, the fluid ounce is used instead.",
+    "candidates": [
+     "ounce",
+     "fluid-ounce-us",
+     "fluid-ounce-imperial"
+    ]
    }
   },
   {
@@ -359,7 +392,12 @@
    "result": {
     "id": "fluid-ounce-imperial",
     "domain": "unit",
-    "note": "Read 'oz' as imperial fluid ounce. If the other side is a volume, the fluid ounce is used instead."
+    "note": "Read 'oz' as imperial fluid ounce. If the other side is a volume, the fluid ounce is used instead.",
+    "candidates": [
+     "ounce",
+     "fluid-ounce-us",
+     "fluid-ounce-imperial"
+    ]
    }
   },
   {
@@ -369,7 +407,11 @@
    "result": {
     "id": "jin",
     "domain": "unit",
-    "note": "Assumed jin"
+    "note": "Assumed jin",
+    "candidates": [
+     "kati",
+     "jin"
+    ]
    }
   },
   {
@@ -379,7 +421,11 @@
    "result": {
     "id": "kati",
     "domain": "unit",
-    "note": "Assumed kati"
+    "note": "Assumed kati",
+    "candidates": [
+     "kati",
+     "jin"
+    ]
    }
   },
   {
@@ -389,7 +435,13 @@
    "result": {
     "id": "SGD",
     "domain": "currency",
-    "note": "Assumed SGD"
+    "note": "Assumed SGD",
+    "candidates": [
+     "USD",
+     "SGD",
+     "AUD",
+     "HKD"
+    ]
    }
   },
   {
@@ -399,7 +451,13 @@
    "result": {
     "id": "USD",
     "domain": "currency",
-    "note": "Assumed USD"
+    "note": "Assumed USD",
+    "candidates": [
+     "USD",
+     "SGD",
+     "AUD",
+     "HKD"
+    ]
    }
   },
   {
@@ -409,7 +467,11 @@
    "result": {
     "id": "CNY",
     "domain": "currency",
-    "note": "Assumed CNY"
+    "note": "Assumed CNY",
+    "candidates": [
+     "JPY",
+     "CNY"
+    ]
    }
   },
   {
@@ -419,7 +481,8 @@
    "result": {
     "id": "SGD",
     "domain": "currency",
-    "note": null
+    "note": null,
+    "candidates": []
    }
   },
   {
@@ -429,7 +492,8 @@
    "result": {
     "id": "MYR",
     "domain": "currency",
-    "note": null
+    "note": null,
+    "candidates": []
    }
   },
   {
@@ -439,7 +503,8 @@
    "result": {
     "id": "kilometer",
     "domain": "unit",
-    "note": null
+    "note": null,
+    "candidates": []
    }
   },
   {
@@ -449,7 +514,8 @@
    "result": {
     "id": "furlong",
     "domain": "unit",
-    "note": null
+    "note": null,
+    "candidates": []
    }
   },
   {
@@ -465,7 +531,8 @@
    "result": {
     "id": "CHF",
     "domain": "currency",
-    "note": null
+    "note": null,
+    "candidates": []
    }
   },
   {
@@ -475,7 +542,8 @@
    "result": {
     "id": "CHF",
     "domain": "currency",
-    "note": null
+    "note": null,
+    "candidates": []
    }
   },
   {
@@ -485,7 +553,8 @@
    "result": {
     "id": "CHF",
     "domain": "currency",
-    "note": null
+    "note": null,
+    "candidates": []
    }
   }
  ],
@@ -520,7 +589,18 @@
      "Assumed US gallon"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "to",
+      "term": "gallons",
+      "chosen": "gallon-us",
+      "candidates": [
+       "gallon-us",
+       "gallon-imperial"
+      ]
+     }
+    ]
    }
   },
   {
@@ -553,7 +633,18 @@
      "Assumed imperial gallon"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "to",
+      "term": "gallons",
+      "chosen": "gallon-imperial",
+      "candidates": [
+       "gallon-us",
+       "gallon-imperial"
+      ]
+     }
+    ]
    }
   },
   {
@@ -586,7 +677,19 @@
      "Read 'oz' as US fluid ounce. If the other side is a volume, the fluid ounce is used instead."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "oz",
+      "chosen": "fluid-ounce-us",
+      "candidates": [
+       "ounce",
+       "fluid-ounce-us",
+       "fluid-ounce-imperial"
+      ]
+     }
+    ]
    }
   },
   {
@@ -619,7 +722,19 @@
      "Read 'oz' as imperial fluid ounce. If the other side is a volume, the fluid ounce is used instead."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "oz",
+      "chosen": "fluid-ounce-imperial",
+      "candidates": [
+       "ounce",
+       "fluid-ounce-us",
+       "fluid-ounce-imperial"
+      ]
+     }
+    ]
    }
   },
   {
@@ -656,7 +771,8 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -689,7 +805,20 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "$",
+      "chosen": "SGD",
+      "candidates": [
+       "USD",
+       "SGD",
+       "AUD",
+       "HKD"
+      ]
+     }
+    ]
    }
   },
   {
@@ -722,7 +851,20 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "$",
+      "chosen": "USD",
+      "candidates": [
+       "USD",
+       "SGD",
+       "AUD",
+       "HKD"
+      ]
+     }
+    ]
    }
   },
   {
@@ -763,7 +905,8 @@
      "Reference only: only metric units are permitted for trade in Singapore"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -794,7 +937,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -825,7 +969,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -858,7 +1003,19 @@
      "Assumed US cup"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "cups",
+      "chosen": "cup-us",
+      "candidates": [
+       "cup-us",
+       "cup-metric",
+       "cup-us-legal"
+      ]
+     }
+    ]
    }
   },
   {
@@ -891,7 +1048,19 @@
      "Assumed metric cup"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "cups",
+      "chosen": "cup-metric",
+      "candidates": [
+       "cup-us",
+       "cup-metric",
+       "cup-us-legal"
+      ]
+     }
+    ]
    }
   },
   {
@@ -922,7 +1091,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -953,7 +1123,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -984,7 +1155,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1016,7 +1188,8 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1048,7 +1221,8 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1079,7 +1253,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1110,7 +1285,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1141,7 +1317,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1183,7 +1360,8 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1217,7 +1395,27 @@
      "Assumed megabyte (1000² bytes). Windows shows MiB as 'MB'."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "gb",
+      "chosen": "gigabyte",
+      "candidates": [
+       "gigabyte",
+       "gibibyte"
+      ]
+     },
+     {
+      "role": "to",
+      "term": "mb",
+      "chosen": "megabyte",
+      "candidates": [
+       "megabyte",
+       "mebibyte"
+      ]
+     }
+    ]
    }
   },
   {
@@ -1250,7 +1448,18 @@
      "Assumed mile per imperial gallon"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "mpg",
+      "chosen": "mile-per-gallon-imperial",
+      "candidates": [
+       "mile-per-gallon-us",
+       "mile-per-gallon-imperial"
+      ]
+     }
+    ]
    }
   },
   {
@@ -1284,7 +1493,8 @@
     "unresolved": [
      "cups rice"
     ],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1318,7 +1528,8 @@
     "unresolved": [
      "k usd"
     ],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1343,7 +1554,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "Can't convert weight to length"
+    "error": "Can't convert weight to length",
+    "assumptions": []
    }
   },
   {
@@ -1366,7 +1578,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "Pick a target currency"
+    "error": "Pick a target currency",
+    "assumptions": []
    }
   },
   {
@@ -1391,7 +1604,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "Can't convert a unit to a currency"
+    "error": "Can't convert a unit to a currency",
+    "assumptions": []
    }
   },
   {
@@ -1445,7 +1659,19 @@
      "Assumed Australian tablespoon"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "tbsp",
+      "chosen": "tablespoon-au",
+      "candidates": [
+       "tablespoon-us",
+       "tablespoon-metric",
+       "tablespoon-au"
+      ]
+     }
+    ]
    }
   },
   {
@@ -1478,7 +1704,18 @@
      "Assumed jin"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "catty",
+      "chosen": "jin",
+      "candidates": [
+       "kati",
+       "jin"
+      ]
+     }
+    ]
    }
   },
   {
@@ -1510,7 +1747,8 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1542,7 +1780,8 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1567,7 +1806,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "No rate for CAD"
+    "error": "No rate for CAD",
+    "assumptions": []
    }
   },
   {
@@ -1598,7 +1838,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1629,7 +1870,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1668,7 +1910,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1699,7 +1942,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1730,7 +1974,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1761,7 +2006,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1794,7 +2040,18 @@
      "Assumed food Calorie (kcal)"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "calories",
+      "chosen": "kilocalorie",
+      "candidates": [
+       "kilocalorie",
+       "small-calorie"
+      ]
+     }
+    ]
    }
   },
   {
@@ -1825,7 +2082,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1856,7 +2114,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1887,7 +2146,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -1921,7 +2181,27 @@
      "Assumed gigabyte (1000³ bytes). Windows shows GiB as 'GB'."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "tb",
+      "chosen": "terabyte",
+      "candidates": [
+       "terabyte",
+       "tebibyte"
+      ]
+     },
+     {
+      "role": "to",
+      "term": "gb",
+      "chosen": "gigabyte",
+      "candidates": [
+       "gigabyte",
+       "gibibyte"
+      ]
+     }
+    ]
    }
   },
   {
@@ -1954,7 +2234,18 @@
      "Assumed imperial pint"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "pint",
+      "chosen": "pint-imperial",
+      "candidates": [
+       "pint-us",
+       "pint-imperial"
+      ]
+     }
+    ]
    }
   },
   {
@@ -1987,7 +2278,18 @@
      "Assumed US pint"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "pint",
+      "chosen": "pint-us",
+      "candidates": [
+       "pint-us",
+       "pint-imperial"
+      ]
+     }
+    ]
    }
   },
   {
@@ -2018,7 +2320,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -2049,7 +2352,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -2080,7 +2384,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   }
  ],
@@ -2114,7 +2419,19 @@
      "Approximate: based on white rice (uncooked) density"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "cup",
+      "chosen": "cup-us",
+      "candidates": [
+       "cup-us",
+       "cup-metric",
+       "cup-us-legal"
+      ]
+     }
+    ]
    }
   },
   {
@@ -2146,7 +2463,19 @@
      "Approximate: based on white rice (uncooked) density"
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "cup",
+      "chosen": "cup-us",
+      "candidates": [
+       "cup-us",
+       "cup-metric",
+       "cup-us-legal"
+      ]
+     }
+    ]
    }
   },
   {
@@ -2179,7 +2508,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -2212,7 +2542,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -2241,7 +2572,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -2270,7 +2602,8 @@
     ],
     "notes": [],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -2297,7 +2630,19 @@
     "unresolved": [
      "unobtainium"
     ],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "cup",
+      "chosen": "cup-us",
+      "candidates": [
+       "cup-us",
+       "cup-metric",
+       "cup-us-legal"
+      ]
+     }
+    ]
    }
   },
   {
@@ -2324,7 +2669,19 @@
     "unresolved": [
      "unobtainium"
     ],
-    "error": null
+    "error": null,
+    "assumptions": [
+     {
+      "role": "from",
+      "term": "cup",
+      "chosen": "cup-us",
+      "candidates": [
+       "cup-us",
+       "cup-metric",
+       "cup-us-legal"
+      ]
+     }
+    ]
    }
   },
   {
@@ -2354,7 +2711,8 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -2384,7 +2742,8 @@
      "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
     ],
     "unresolved": [],
-    "error": null
+    "error": null,
+    "assumptions": []
    }
   },
   {
@@ -2407,7 +2766,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "Not a number: 'abc'"
+    "error": "Not a number: 'abc'",
+    "assumptions": []
    }
   },
   {
@@ -2430,7 +2790,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "Not a number: 'abc'"
+    "error": "Not a number: 'abc'",
+    "assumptions": []
    }
   },
   {
@@ -2446,7 +2807,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "unsupported"
+    "error": "unsupported",
+    "assumptions": []
    }
   },
   {
@@ -2462,7 +2824,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "unsupported"
+    "error": "unsupported",
+    "assumptions": []
    }
   },
   {
@@ -2483,7 +2846,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "incomplete"
+    "error": "incomplete",
+    "assumptions": []
    }
   },
   {
@@ -2504,7 +2868,8 @@
     "results": [],
     "notes": [],
     "unresolved": [],
-    "error": "incomplete"
+    "error": "incomplete",
+    "assumptions": []
    }
   }
  ]
