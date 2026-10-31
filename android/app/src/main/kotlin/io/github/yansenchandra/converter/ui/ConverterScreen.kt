@@ -1,4 +1,4 @@
-package sg.pixeltools.converter.ui
+package io.github.yansenchandra.converter.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -51,11 +51,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import sg.pixeltools.converter.CURRENCY
-import sg.pixeltools.converter.ConverterViewModel
-import sg.pixeltools.converter.ConverterViewModel.Side
-import sg.pixeltools.converter.Line
-import sg.pixeltools.converter.RatesState
+import io.github.yansenchandra.converter.CURRENCY
+import io.github.yansenchandra.converter.ConverterViewModel
+import io.github.yansenchandra.converter.ConverterViewModel.Side
+import io.github.yansenchandra.converter.Line
+import io.github.yansenchandra.converter.RatesState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

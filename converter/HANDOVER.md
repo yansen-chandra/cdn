@@ -1,4 +1,4 @@
-# Handover: AI unit & currency converter (PixelTools, Android)
+# Handover: AI unit & currency converter (Android)
 
 Read this first, then `parse-prompt.md`, then run the tests. Everything here was built and tested in a Claude chat session on 2026-10-31.
 
@@ -105,7 +105,7 @@ python convert.py "50 sgd to jpy" --rates rates.json   # rates: {"base","date","
 - Target markets first (SG only, SEA, or global)? Affects region defaults and ASO country.
 - LLM provider and monthly budget per active user.
 - Where the rates job runs (personal cloud account, not GCC).
-- App name under the PixelTools brand.
+- App name and brand (package id is io.github.yansenchandra.converter).
 
 ## Sources used
 

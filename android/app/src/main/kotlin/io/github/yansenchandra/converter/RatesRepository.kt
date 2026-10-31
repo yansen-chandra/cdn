@@ -1,8 +1,8 @@
-package sg.pixeltools.converter
+package io.github.yansenchandra.converter
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import sg.pixeltools.converter.engine.Rates
+import io.github.yansenchandra.converter.engine.Rates
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL

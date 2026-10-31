@@ -35,7 +35,7 @@ class RatesError(Exception):
 
 
 def fetch(url: str, timeout: int = 30) -> dict:
-    req = urllib.request.Request(url, headers={"User-Agent": "pixeltools-rates-job/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "converter-rates-job/1.0"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         return json.load(resp)
 

@@ -1,4 +1,4 @@
-package sg.pixeltools.converter
+package io.github.yansenchandra.converter
 
 import android.os.Build
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.platform.LocalContext
-import sg.pixeltools.converter.ui.ConverterScreen
+import io.github.yansenchandra.converter.ui.ConverterScreen
 
 class MainActivity : ComponentActivity() {
     private val vm: ConverterViewModel by viewModels()

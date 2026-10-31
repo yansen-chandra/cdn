@@ -1,4 +1,4 @@
-package sg.pixeltools.converter
+package io.github.yansenchandra.converter
 
 import android.app.Application
 import android.content.Context
@@ -8,17 +8,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sg.pixeltools.converter.engine.ConversionError
-import sg.pixeltools.converter.engine.MasterList
-import sg.pixeltools.converter.engine.Outcome
-import sg.pixeltools.converter.engine.REFERENCE_ONLY
-import sg.pixeltools.converter.engine.Rates
-import sg.pixeltools.converter.engine.convertCurrency
-import sg.pixeltools.converter.engine.fastParse
-import sg.pixeltools.converter.engine.fmt
-import sg.pixeltools.converter.engine.parseValue
-import sg.pixeltools.converter.engine.process
-import sg.pixeltools.converter.engine.referenceOnly
+import io.github.yansenchandra.converter.engine.ConversionError
+import io.github.yansenchandra.converter.engine.MasterList
+import io.github.yansenchandra.converter.engine.Outcome
+import io.github.yansenchandra.converter.engine.REFERENCE_ONLY
+import io.github.yansenchandra.converter.engine.Rates
+import io.github.yansenchandra.converter.engine.convertCurrency
+import io.github.yansenchandra.converter.engine.fastParse
+import io.github.yansenchandra.converter.engine.fmt
+import io.github.yansenchandra.converter.engine.parseValue
+import io.github.yansenchandra.converter.engine.process
+import io.github.yansenchandra.converter.engine.referenceOnly
 import java.text.DecimalFormatSymbols
 import java.util.Currency
 import java.util.Locale

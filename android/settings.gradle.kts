@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PixelToolsConverter"
+rootProject.name = "Converter"
 include(":engine", ":app")

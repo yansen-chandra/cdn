@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://pixeltools.sg/schemas/converter-master-list.json",
+  "$id": "https://cdn.jsdelivr.net/gh/yansen-chandra/cdn@master/converter/master-list.schema.json",
   "title": "Converter master list",
   "description": "Units, quantities, ambiguity rules, ingredient densities and currency aliases for an AI-assisted converter. All numbers are strings so they stay exact: a decimal ('0.3048') or a fraction of two decimals ('1852/3600'). Conversion to the quantity's base unit: linear -> base = value * factor; affine -> base = value * factor + offset; reciprocal -> base = factor / value.",
   "type": "object",

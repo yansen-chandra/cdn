@@ -13,11 +13,11 @@ val ratesUrls = listOf(
 )
 
 android {
-    namespace = "sg.pixeltools.converter"
+    namespace = "io.github.yansenchandra.converter"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "sg.pixeltools.converter"
+        applicationId = "io.github.yansenchandra.converter"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

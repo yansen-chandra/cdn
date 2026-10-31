@@ -1,4 +1,4 @@
-package sg.pixeltools.converter.engine
+package io.github.yansenchandra.converter.engine
 
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -98,12 +98,19 @@ fun fmt(x: Rational, sig: Int = 6): String {
     return s
 }
 
-/** Same semantics as the Python reference: Unicode-aware \d, \s, \b and case folding. */
-internal fun pyRegex(pattern: String): java.util.regex.Pattern = java.util.regex.Pattern.compile(
-    pattern,
-    java.util.regex.Pattern.CASE_INSENSITIVE or java.util.regex.Pattern.UNICODE_CASE or
-        java.util.regex.Pattern.UNICODE_CHARACTER_CLASS,
-)
+/**
+ * Same semantics as the Python reference: Unicode-aware \d, \s, \b and case folding.
+ * The JVM needs UNICODE_CHARACTER_CLASS for that; Android's ICU regex is Unicode-aware
+ * by default and rejects the flag, so fall back to compiling without it.
+ */
+internal fun pyRegex(pattern: String): java.util.regex.Pattern {
+    val flags = java.util.regex.Pattern.CASE_INSENSITIVE or java.util.regex.Pattern.UNICODE_CASE
+    return try {
+        java.util.regex.Pattern.compile(pattern, flags or java.util.regex.Pattern.UNICODE_CHARACTER_CLASS)
+    } catch (e: IllegalArgumentException) {
+        java.util.regex.Pattern.compile(pattern, flags)
+    }
+}
 
 /** Python's repr() for plain strings, so error messages match the reference engine. */
 internal fun pyRepr(s: String): String {
