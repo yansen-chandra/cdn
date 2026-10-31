@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pixeltools.sg/schemas/converter-master-list.json",
+  "title": "Converter master list",
+  "description": "Units, quantities, ambiguity rules, ingredient densities and currency aliases for an AI-assisted converter. All numbers are strings so they stay exact: a decimal ('0.3048') or a fraction of two decimals ('1852/3600'). Conversion to the quantity's base unit: linear -> base = value * factor; affine -> base = value * factor + offset; reciprocal -> base = factor / value.",
+  "type": "object",
+  "required": ["version", "quantities", "units", "ambiguous_aliases", "densities", "currency"],
+  "additionalProperties": false,
+  "$defs": {
+    "exact_number": {
+      "type": "string",
+      "pattern": "^-?[0-9]+(\\.[0-9]+)?(/[0-9]+(\\.[0-9]+)?)?$",
+      "description": "Decimal or fraction, e.g. '0.45359237', '5/9', '1.81436948/3'."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "alias": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Matched case-insensitively after trimming. Include plurals, abbreviations, symbols and slang."
+    },
+    "region_defaults": {
+      "type": "object",
+      "description": "ISO 3166-1 alpha-2 region -> chosen candidate. '*' is the fallback and is required.",
+      "required": ["*"],
+      "propertyNames": { "pattern": "^([A-Z]{2}|\\*)$" },
+      "additionalProperties": { "type": "string" }
+    },
+    "localized_names": {
+      "type": "object",
+      "description": "BCP 47 locale -> plural forms (CLDR plural categories).",
+      "propertyNames": { "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["one", "other"],
+        "properties": {
+          "zero": { "type": "string" },
+          "one": { "type": "string" },
+          "two": { "type": "string" },
+          "few": { "type": "string" },
+          "many": { "type": "string" },
+          "other": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Bump on every change so clients can cache by version, e.g. '2026.10.1'."
+    },
+    "quantities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "base_unit", "names"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "base_unit": { "$ref": "#/$defs/id", "description": "Must be a unit of this quantity with kind 'linear' and factor '1'." },
+          "names": { "type": "object", "additionalProperties": { "type": "string" } },
+          "common_targets": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/id" },
+            "description": "Shown when the user gives no target unit."
+          }
+        }
+      }
+    },
+    "units": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "quantity", "kind", "factor", "symbol", "names", "aliases", "system", "source"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "quantity": { "$ref": "#/$defs/id" },
+          "kind": { "enum": ["linear", "affine", "reciprocal"] },
+          "factor": { "$ref": "#/$defs/exact_number" },
+          "offset": { "$ref": "#/$defs/exact_number", "description": "Required when kind is 'affine'." },
+          "symbol": { "type": "string" },
+          "names": { "$ref": "#/$defs/localized_names" },
+          "aliases": { "type": "array", "items": { "$ref": "#/$defs/alias" } },
+          "system": { "enum": ["si", "metric", "us-customary", "imperial", "regional", "historical", "computing", "other"] },
+          "regions": {
+            "type": "array",
+            "items": { "pattern": "^[A-Z]{2}$" },
+            "description": "Where the unit is commonly used. Informational."
+          },
+          "approximate": { "type": "boolean", "default": false },
+          "source": { "type": "string", "description": "Where the factor comes from (standard, statute, CLDR)." },
+          "notes": { "type": "string" }
+        },
+        "if": { "properties": { "kind": { "const": "affine" } } },
+        "then": { "required": ["offset"] },
+        "else": { "not": { "required": ["offset"] } }
+      }
+    },
+    "ambiguous_aliases": {
+      "type": "array",
+      "description": "Aliases that map to more than one unit or currency. These must NOT also appear in any unit's or currency's own alias list.",
+      "items": {
+        "type": "object",
+        "required": ["alias", "domain", "candidates", "defaults"],
+        "additionalProperties": false,
+        "properties": {
+          "alias": { "$ref": "#/$defs/alias" },
+          "domain": { "enum": ["unit", "currency"] },
+          "candidates": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+          "defaults": { "$ref": "#/$defs/region_defaults" },
+          "note": { "type": "string", "description": "Shown to the user, e.g. 'Assumed US gallon'." }
+        }
+      }
+    },
+    "densities": {
+      "type": "array",
+      "description": "Bridges volume <-> mass for cooking conversions. Always approximate.",
+      "items": {
+        "type": "object",
+        "required": ["id", "names", "aliases", "g_per_ml", "source"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "names": { "type": "object", "additionalProperties": { "type": "string" } },
+          "aliases": { "type": "array", "items": { "$ref": "#/$defs/alias" } },
+          "g_per_ml": { "$ref": "#/$defs/exact_number" },
+          "approximate": { "const": true },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "currency": {
+      "type": "object",
+      "required": ["provider", "aliases"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "type": "object",
+          "required": ["name", "docs", "refresh", "attribution"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string" },
+            "docs": { "type": "string", "format": "uri" },
+            "refresh": { "type": "string", "description": "How often your server pulls rates." },
+            "attribution": { "type": "string", "description": "Text shown next to every currency result." },
+            "fallback": { "type": "string" }
+          }
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["code", "aliases"],
+            "additionalProperties": false,
+            "properties": {
+              "code": { "type": "string", "pattern": "^[A-Z]{3}$" },
+              "aliases": { "type": "array", "items": { "$ref": "#/$defs/alias" } }
+            }
+          }
+        }
+      }
+    }
+  }
+}

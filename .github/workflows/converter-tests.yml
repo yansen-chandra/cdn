@@ -1,0 +1,21 @@
+name: converter tests
+
+on:
+  push:
+    paths: ["converter/**", ".github/workflows/converter-tests.yml"]
+  pull_request:
+    paths: ["converter/**", ".github/workflows/converter-tests.yml"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: converter
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install pytest jsonschema
+      - run: python -m pytest -q
