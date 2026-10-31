@@ -3,6 +3,7 @@ package io.github.yansenchandra.converter
 import android.content.Context
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -72,7 +73,8 @@ class ConverterScreenTest {
         type("3 kg to lb")
         rule.mainClock.advanceTimeBy(2_000)
         rule.onNodeWithTag("history_button").performClick()
-        rule.onNodeWithText("3 kg to lb").assertIsDisplayed()
+        // The typed text is still in the input too, so look only at history rows.
+        rule.onNode(hasTestTag("history_entry") and hasText("3 kg to lb")).assertIsDisplayed()
     }
 
     @Test
