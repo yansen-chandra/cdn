@@ -237,6 +237,48 @@
    "to": "kilometer-per-liter",
    "ingredient": null,
    "error": "0 L/100 km has no equivalent"
+  },
+  {
+   "value": "1",
+   "from": "radian",
+   "to": "degree",
+   "ingredient": null,
+   "result": "14323944878270580219199538703526292583101368116641/250000000000000000000000000000000000000000000000"
+  },
+  {
+   "value": "1",
+   "from": "psi",
+   "to": "pascal",
+   "ingredient": null,
+   "result": "8896443230521/1290320000"
+  },
+  {
+   "value": "1",
+   "from": "horsepower",
+   "to": "watt",
+   "ingredient": null,
+   "result": "37284993579113511/50000000000000"
+  },
+  {
+   "value": "1",
+   "from": "slug",
+   "to": "kilogram",
+   "ingredient": null,
+   "result": "8896443230521/609600000000"
+  },
+  {
+   "value": "1",
+   "from": "year",
+   "to": "second",
+   "ingredient": null,
+   "result": "31556952/1"
+  },
+  {
+   "value": "5",
+   "from": "hour",
+   "to": "kilogram",
+   "ingredient": null,
+   "error": "Can't convert time to weight"
   }
  ],
  "resolve": [
@@ -404,7 +446,11 @@
    "term": "furlongs",
    "region": "*",
    "prefer_quantity": null,
-   "result": null
+   "result": {
+    "id": "furlong",
+    "domain": "unit",
+    "note": null
+   }
   },
   {
    "term": "",
@@ -1523,6 +1569,519 @@
     "unresolved": [],
     "error": "No rate for CAD"
    }
+  },
+  {
+   "text": "2 hours to minutes",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "2",
+      "unit": "hours"
+     }
+    ],
+    "to": [
+     "minutes"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "120",
+      "unit": "minute",
+      "symbol": "min"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1.5 h to min",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1.5",
+      "unit": "h"
+     }
+    ],
+    "to": [
+     "min"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "90",
+      "unit": "minute",
+      "symbol": "min"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "3 days",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "3",
+      "unit": "days"
+     }
+    ],
+    "to": [],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "259200",
+      "unit": "second",
+      "symbol": "s"
+     },
+     {
+      "value": "4320",
+      "unit": "minute",
+      "symbol": "min"
+     },
+     {
+      "value": "72",
+      "unit": "hour",
+      "symbol": "h"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 year to days",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "year"
+     }
+    ],
+    "to": [
+     "days"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "365.242",
+      "unit": "day",
+      "symbol": "d"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "30 psi to bar",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "30",
+      "unit": "psi"
+     }
+    ],
+    "to": [
+     "bar"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "2.06843",
+      "unit": "bar",
+      "symbol": "bar"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "100 kcal to kj",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "100",
+      "unit": "kcal"
+     }
+    ],
+    "to": [
+     "kj"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "418.4",
+      "unit": "kilojoule",
+      "symbol": "kJ"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "500 calories to kj",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "500",
+      "unit": "calories"
+     }
+    ],
+    "to": [
+     "kj"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "2092",
+      "unit": "kilojoule",
+      "symbol": "kJ"
+     }
+    ],
+    "notes": [
+     "Assumed food Calorie (kcal)"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "200 hp to kw",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "200",
+      "unit": "hp"
+     }
+    ],
+    "to": [
+     "kw"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "149.14",
+      "unit": "kilowatt",
+      "symbol": "kW"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "90 deg to rad",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "90",
+      "unit": "deg"
+     }
+    ],
+    "to": [
+     "rad"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "1.5708",
+      "unit": "radian",
+      "symbol": "rad"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "100 mbps to mb/s",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "100",
+      "unit": "mbps"
+     }
+    ],
+    "to": [
+     "mb/s"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "12.5",
+      "unit": "megabyte-per-second",
+      "symbol": "MB/s"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 tb to gb",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "tb"
+     }
+    ],
+    "to": [
+     "gb"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "1000",
+      "unit": "gigabyte",
+      "symbol": "GB"
+     }
+    ],
+    "notes": [
+     "Assumed terabyte (1000⁴ bytes). Windows shows TiB as 'TB'.",
+     "Assumed gigabyte (1000³ bytes). Windows shows GiB as 'GB'."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 pint to ml",
+   "region": "GB",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "pint"
+     }
+    ],
+    "to": [
+     "ml"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "568.261",
+      "unit": "milliliter",
+      "symbol": "mL"
+     }
+    ],
+    "notes": [
+     "Assumed imperial pint"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 pint to ml",
+   "region": "US",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "pint"
+     }
+    ],
+    "to": [
+     "ml"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "473.176",
+      "unit": "milliliter",
+      "symbol": "mL"
+     }
+    ],
+    "notes": [
+     "Assumed US pint"
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "1 light year to km",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "1",
+      "unit": "light year"
+     }
+    ],
+    "to": [
+     "km"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "9460730000000",
+      "unit": "kilometer",
+      "symbol": "km"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "3000 rpm to hz",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "3000",
+      "unit": "rpm"
+     }
+    ],
+    "to": [
+     "hz"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "50",
+      "unit": "hertz",
+      "symbol": "Hz"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "0 rankine to c",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "0",
+      "unit": "rankine"
+     }
+    ],
+    "to": [
+     "c"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "-273.15",
+      "unit": "celsius",
+      "symbol": "°C"
+     }
+    ],
+    "notes": [],
+    "unresolved": [],
+    "error": null
+   }
   }
  ],
  "requests": [
@@ -1673,11 +2232,15 @@
    },
    "region": "SG",
    "outcome": {
-    "results": [],
-    "notes": [],
-    "unresolved": [
-     "furlongs"
+    "results": [
+     {
+      "value": "402.336",
+      "unit": "meter",
+      "symbol": "m"
+     }
     ],
+    "notes": [],
+    "unresolved": [],
     "error": null
    }
   },
@@ -1698,11 +2261,15 @@
    },
    "region": "GB",
    "outcome": {
-    "results": [],
-    "notes": [],
-    "unresolved": [
-     "furlongs"
+    "results": [
+     {
+      "value": "402.336",
+      "unit": "meter",
+      "symbol": "m"
+     }
     ],
+    "notes": [],
+    "unresolved": [],
     "error": null
    }
   },

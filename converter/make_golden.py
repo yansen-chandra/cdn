@@ -36,6 +36,8 @@ CONVERT = [
     ("2", "cup-us", "gram", "rice-white-uncooked"), ("500", "gram", "cup-us", "flour-all-purpose"),
     ("2", "cup-us", "gram", None), ("5", "kilogram", "centimeter", None),
     ("0", "liter-per-100-kilometer", "kilometer-per-liter", None),
+    ("1", "radian", "degree", None), ("1", "psi", "pascal", None), ("1", "horsepower", "watt", None),
+    ("1", "slug", "kilogram", None), ("1", "year", "second", None), ("5", "hour", "kilogram", None),
 ]
 
 RESOLVE = [("gallons", "GB", None), ("gallons", "SG", None), ("cup", "AU", None), ("cup", "SG", None),
@@ -56,6 +58,10 @@ TEXTS = [
     ("2.5k usd to sgd", "SG"), ("5 kg to cm", "SG"), ("10 sgd", "SG"), ("5 kg to sgd", "SG"),
     ("$50 sgd to jpy", "SG"), ("hello", "SG"), ("", "SG"), ("1 tbsp to ml", "AU"), ("1 catty to g", "CN"),
     ("100 chf to sgd", "SG"), ("50 swiss francs in usd", "SG"), ("20 sgd to cad", "SG"),
+    ("2 hours to minutes", "SG"), ("1.5 h to min", "SG"), ("3 days", "SG"), ("1 year to days", "SG"),
+    ("30 psi to bar", "SG"), ("100 kcal to kj", "SG"), ("500 calories to kj", "SG"), ("200 hp to kw", "SG"),
+    ("90 deg to rad", "SG"), ("100 mbps to mb/s", "SG"), ("1 tb to gb", "SG"), ("1 pint to ml", "GB"),
+    ("1 pint to ml", "US"), ("1 light year to km", "SG"), ("3000 rpm to hz", "SG"), ("0 rankine to c", "SG"),
 ]
 
 REQUESTS = [

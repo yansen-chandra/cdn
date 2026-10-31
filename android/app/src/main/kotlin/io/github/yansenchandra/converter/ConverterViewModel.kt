@@ -325,6 +325,14 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
             "speed" to ("kilometer-per-hour" to "mile-per-hour"),
             "fuel-economy" to ("liter-per-100-kilometer" to "mile-per-gallon-us"),
             "digital-storage" to ("gigabyte" to "megabyte"),
+            "time" to ("hour" to "minute"),
+            "pressure" to ("psi" to "bar"),
+            "energy" to ("kilocalorie" to "kilojoule"),
+            "power" to ("horsepower" to "kilowatt"),
+            "force" to ("newton" to "pound-force"),
+            "frequency" to ("megahertz" to "kilohertz"),
+            "angle" to ("degree" to "radian"),
+            "data-rate" to ("megabit-per-second" to "megabyte-per-second"),
         )
         private val TARGET_TOKEN = Regex("""(?i)(?:\s(?:to|in|into|as)\s+|->|=|→)\s*([^\d,&]*)$""")
         private val SOURCE_TOKEN = Regex("""\d\s*([^\d\s=][^\d=]*)$""")

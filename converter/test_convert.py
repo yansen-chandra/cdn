@@ -178,9 +178,9 @@ def test_e2e_llm_style_request_with_ingredient():
 
 
 def test_e2e_unresolved_terms_are_reported():
-    req = {"intent": "convert", "domain": "unit", "parts": [{"value": "2", "unit": "furlongs"}],
+    req = {"intent": "convert", "domain": "unit", "parts": [{"value": "2", "unit": "cubits"}],
            "to": ["meter"], "ingredient": None}
-    assert process(req, ML)["unresolved"] == ["furlongs"]
+    assert process(req, ML)["unresolved"] == ["cubits"]
 
 
 def test_e2e_unsupported():
@@ -230,3 +230,33 @@ def test_every_published_rate_currency_is_in_master_list():
                                        ("canadian dollar", "CAD"), ("rand", "ZAR"), ("zloty", "PLN")])
 def test_more_currency_aliases(term, code):
     assert ML.resolve(term).id == code
+
+
+# ---------------- more quantities (time, pressure, energy, power, ...) -------
+
+@pytest.mark.parametrize("value,src,dst,expected", [
+    ("2", "hour", "minute", "120"), ("1", "day", "second", "86400"), ("1", "week", "hour", "168"),
+    ("1", "year", "day", "365.242"), ("90", "minute", "hour", "1.5"),
+    ("1", "atmosphere", "psi", "14.6959"), ("1", "bar", "kilopascal", "100"), ("760", "torr", "atmosphere", "1"),
+    ("1", "kilowatt-hour", "kilojoule", "3600"), ("1", "kilocalorie", "kilojoule", "4.184"),
+    ("1", "btu", "joule", "1055.06"), ("1", "horsepower", "watt", "745.7"),
+    ("1", "metric-horsepower", "watt", "735.499"), ("1", "pound-force", "newton", "4.44822"),
+    ("1", "kilogram-force", "newton", "9.80665"), ("3000", "revolution-per-minute", "hertz", "50"),
+    ("1", "radian", "degree", "57.2958"), ("180", "degree", "radian", "3.14159"), ("1", "turn", "gradian", "400"),
+    ("100", "megabit-per-second", "megabyte-per-second", "12.5"), ("1", "terabyte", "gigabyte", "1000"),
+    ("1", "light-year", "kilometer", "9460730000000"), ("1", "furlong", "meter", "201.168"),
+    ("1", "troy-ounce", "gram", "31.1035"), ("1", "carat", "milligram", "200"),
+    ("1", "square-mile", "square-kilometer", "2.58999"), ("1", "cubic-foot", "liter", "28.3168"),
+    ("1", "pint-imperial", "milliliter", "568.261"), ("1", "pint-us", "milliliter", "473.176"),
+    ("0", "rankine", "kelvin", "0"), ("491.67", "rankine", "celsius", "0"),
+])
+def test_more_quantities(value, src, dst, expected):
+    assert fmt(conv(value, src, dst)) == expected
+
+
+def test_e2e_time_and_regional_pints():
+    assert run("2 hours to minutes")["results"][0]["value"] == "120"
+    assert run("1 pint to ml", region="GB")["results"][0]["value"] == "568.261"
+    res = run("1 pint to ml", region="US")
+    assert res["results"][0]["value"] == "473.176" and "Assumed US pint" in res["notes"]
+    assert "Assumed food Calorie (kcal)" in run("500 calories to kj")["notes"]
