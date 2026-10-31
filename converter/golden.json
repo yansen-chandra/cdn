@@ -7,7 +7,8 @@
    "JPY": "160",
    "USD": "1.1",
    "GBP": "0.85",
-   "MYR": "5"
+   "MYR": "5",
+   "CHF": "0.94"
   }
  },
  "parse_value": [
@@ -410,6 +411,36 @@
    "region": "*",
    "prefer_quantity": null,
    "result": null
+  },
+  {
+   "term": "chf",
+   "region": "*",
+   "prefer_quantity": null,
+   "result": {
+    "id": "CHF",
+    "domain": "currency",
+    "note": null
+   }
+  },
+  {
+   "term": "Swiss Franc",
+   "region": "*",
+   "prefer_quantity": null,
+   "result": {
+    "id": "CHF",
+    "domain": "currency",
+    "note": null
+   }
+  },
+  {
+   "term": "francs",
+   "region": "SG",
+   "prefer_quantity": null,
+   "result": {
+    "id": "CHF",
+    "domain": "currency",
+    "note": null
+   }
   }
  ],
  "texts": [
@@ -1402,6 +1433,95 @@
     ],
     "unresolved": [],
     "error": null
+   }
+  },
+  {
+   "text": "100 chf to sgd",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "100",
+      "unit": "chf"
+     }
+    ],
+    "to": [
+     "sgd"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "159.574",
+      "unit": "SGD"
+     }
+    ],
+    "notes": [
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "50 swiss francs in usd",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "50",
+      "unit": "swiss francs"
+     }
+    ],
+    "to": [
+     "usd"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [
+     {
+      "value": "58.5106",
+      "unit": "USD"
+     }
+    ],
+    "notes": [
+     "Reference rates via Frankfurter (central bank sources), as of 2026-10-30. Not for trading."
+    ],
+    "unresolved": [],
+    "error": null
+   }
+  },
+  {
+   "text": "20 sgd to cad",
+   "region": "SG",
+   "fast_parse": {
+    "intent": "convert",
+    "domain": null,
+    "parts": [
+     {
+      "value": "20",
+      "unit": "sgd"
+     }
+    ],
+    "to": [
+     "cad"
+    ],
+    "ingredient": null
+   },
+   "fast_path": true,
+   "outcome": {
+    "results": [],
+    "notes": [],
+    "unresolved": [],
+    "error": "No rate for CAD"
    }
   }
  ],

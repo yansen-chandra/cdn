@@ -1,5 +1,5 @@
 {
-  "version": "2026.10.1",
+  "version": "2026.10.2",
   "quantities": [
     { "id": "length", "base_unit": "meter", "names": { "en": "Length" }, "common_targets": ["centimeter", "meter", "foot", "inch"] },
     { "id": "mass", "base_unit": "kilogram", "names": { "en": "Weight" }, "common_targets": ["kilogram", "gram", "pound"] },
@@ -154,7 +154,22 @@
       { "code": "IDR", "aliases": ["idr", "rupiah", "indonesian rupiah"] },
       { "code": "KRW", "aliases": ["krw", "₩", "won", "korean won"] },
       { "code": "PHP", "aliases": ["php", "₱", "philippine peso", "philippine pesos"] },
-      { "code": "MXN", "aliases": ["mxn", "mexican peso", "mexican pesos"] }
+      { "code": "MXN", "aliases": ["mxn", "mexican peso", "mexican pesos"] },
+      { "code": "BRL", "aliases": ["brl", "brazilian real", "brazilian reais", "real", "reais", "r$"] },
+      { "code": "CAD", "aliases": ["cad", "canadian dollar", "canadian dollars", "c$", "ca$", "loonie"] },
+      { "code": "CHF", "aliases": ["chf", "swiss franc", "swiss francs", "franc", "francs", "sfr", "fr."] },
+      { "code": "CZK", "aliases": ["czk", "czech koruna", "czech crown", "czech crowns", "koruna", "kč"] },
+      { "code": "DKK", "aliases": ["dkk", "danish krone", "danish kroner"] },
+      { "code": "HUF", "aliases": ["huf", "hungarian forint", "forint", "forints"] },
+      { "code": "ILS", "aliases": ["ils", "israeli shekel", "new shekel", "shekel", "shekels", "nis", "₪"] },
+      { "code": "ISK", "aliases": ["isk", "icelandic krona", "icelandic kronur"] },
+      { "code": "NOK", "aliases": ["nok", "norwegian krone", "norwegian kroner"] },
+      { "code": "NZD", "aliases": ["nzd", "new zealand dollar", "new zealand dollars", "nz dollar", "nz$", "kiwi dollar"] },
+      { "code": "PLN", "aliases": ["pln", "polish zloty", "zloty", "zlotys", "złoty", "zł"] },
+      { "code": "RON", "aliases": ["ron", "romanian leu", "leu", "lei"] },
+      { "code": "SEK", "aliases": ["sek", "swedish krona", "swedish kronor"] },
+      { "code": "TRY", "aliases": ["try", "turkish lira", "lira", "₺"] },
+      { "code": "ZAR", "aliases": ["zar", "south african rand", "rand", "rands"] }
     ]
   }
 }

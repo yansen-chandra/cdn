@@ -12,8 +12,9 @@ from fetch_rates import RatesError, missing_codes, normalize, write_atomic
 
 HERE = Path(__file__).resolve().parent
 TODAY = date(2026, 10, 31)
-CODES = ["AUD", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK", "GBP", "HKD", "HUF", "IDR",
-         "INR", "JPY", "KRW", "MXN", "MYR", "NOK", "PHP", "PLN", "SEK", "SGD", "THB", "USD"]
+CODES = ["AUD", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK", "GBP", "HKD", "HUF", "IDR", "ILS", "INR",
+         "ISK", "JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "SEK", "SGD", "THB",
+         "TRY", "USD", "ZAR"]  # ECB reference set
 
 
 def payload(**over):

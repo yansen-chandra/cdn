@@ -217,3 +217,16 @@ def test_currency_math():
 def test_golden_file_is_current():
     from make_golden import OUT, render
     assert OUT.read_text(encoding="utf-8") == render(), "run: python make_golden.py"
+
+
+def test_every_published_rate_currency_is_in_master_list():
+    """Search and the parser only know master-list currencies, so each rate needs an entry."""
+    rates = json.loads((HERE / "rates.json").read_text(encoding="utf-8"))
+    codes = {c["code"] for c in ML.data["currency"]["aliases"]}
+    assert sorted({rates["base"], *rates["rates"]} - codes) == []
+
+
+@pytest.mark.parametrize("term,code", [("chf", "CHF"), ("swiss franc", "CHF"), ("francs", "CHF"),
+                                       ("canadian dollar", "CAD"), ("rand", "ZAR"), ("zloty", "PLN")])
+def test_more_currency_aliases(term, code):
+    assert ML.resolve(term).id == code

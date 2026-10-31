@@ -19,7 +19,7 @@ HERE = Path(__file__).resolve().parent
 OUT = HERE / "golden.json"
 
 RATES = {"base": "EUR", "date": "2026-10-30",  # test fixture, not real rates
-         "rates": {"SGD": "1.5", "JPY": "160", "USD": "1.1", "GBP": "0.85", "MYR": "5"}}
+         "rates": {"SGD": "1.5", "JPY": "160", "USD": "1.1", "GBP": "0.85", "MYR": "5", "CHF": "0.94"}}
 
 PARSE_VALUE = ["2.5", "1,000", "1/2", "1 1/2", "-40", "2.5k", "3m", "0", "five", "1/0", "1 2", ""]
 
@@ -42,7 +42,8 @@ RESOLVE = [("gallons", "GB", None), ("gallons", "SG", None), ("cup", "AU", None)
            ("tbsp", "AU", None), ("oz", "*", None), ("oz", "SG", "volume"), ("oz", "GB", "volume"),
            ("catty", "CN", None), ("catty", "SG", None), ("$", "SG", None), ("$", "US", None),
            ("¥", "CN", None), ("sing dollar", "*", None), ("rm", "*", None), ("KM", "*", None),
-           ("furlongs", "*", None), ("", "*", None)]
+           ("furlongs", "*", None), ("", "*", None), ("chf", "*", None), ("Swiss Franc", "*", None),
+           ("francs", "SG", None)]
 
 TEXTS = [
     ("10 l to gallons", "SG"), ("10 l to gallons", "GB"), ("1 oz to ml", "SG"), ("1 oz to ml", "GB"),
@@ -54,6 +55,7 @@ TEXTS = [
     ("5'9 in cm", "SG"), ("2 cups rice in grams", "SG"), ("what's the weather", "SG"),
     ("2.5k usd to sgd", "SG"), ("5 kg to cm", "SG"), ("10 sgd", "SG"), ("5 kg to sgd", "SG"),
     ("$50 sgd to jpy", "SG"), ("hello", "SG"), ("", "SG"), ("1 tbsp to ml", "AU"), ("1 catty to g", "CN"),
+    ("100 chf to sgd", "SG"), ("50 swiss francs in usd", "SG"), ("20 sgd to cad", "SG"),
 ]
 
 REQUESTS = [

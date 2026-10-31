@@ -13,6 +13,7 @@ import io.github.yansenchandra.converter.engine.MasterList
 import io.github.yansenchandra.converter.engine.Outcome
 import io.github.yansenchandra.converter.engine.REFERENCE_ONLY
 import io.github.yansenchandra.converter.engine.Rates
+import io.github.yansenchandra.converter.engine.Search
 import io.github.yansenchandra.converter.engine.convertCurrency
 import io.github.yansenchandra.converter.engine.fastParse
 import io.github.yansenchandra.converter.engine.fmt
@@ -228,23 +229,8 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     /** Units and currencies whose id, alias, name or symbol match [text]. Best match first. */
-    fun search(text: String, limit: Int = 50): List<Choice> {
-        val t = text.trim().lowercase()
-        if (t.isEmpty()) return emptyList()
-        return index.mapNotNull { e ->
-            val score = when {
-                e.term == t -> 0
-                e.term.startsWith(t) -> 1
-                e.term.contains(t) -> 2
-                else -> return@mapNotNull null
-            }
-            Triple(score, e.term.length, e)
-        }
-            .sortedWith(compareBy({ it.first }, { it.second }))
-            .distinctBy { it.third.id }
-            .take(limit)
-            .map { (_, _, e) -> choice(e.id, e.domain, e.term) }
-    }
+    fun search(text: String, limit: Int = 50): List<Choice> =
+        searcher().search(text, limit).map { choice(it.id, it.domain, it.term) }
 
     /** Picker list when the search box is empty: recents in this category, then the rest. */
     fun categoryChoices(): List<Choice> {
@@ -259,21 +245,17 @@ class ConverterViewModel(app: Application) : AndroidViewModel(app) {
 
     // ---------------- helpers -------------------------------------------
 
-    private data class Entry(val term: String, val id: String, val domain: String)
+    // Rebuilt when the rates change, so every currency with a rate is searchable.
+    private var searchIndex: Search? = null
+    private var searchCodes: Set<String>? = null
 
-    private val index: List<Entry> by lazy {
-        buildList {
-            for (u in ml.units.values) {
-                for (t in listOf(u.id, u.symbol, u.nameOne, u.nameOther) + u.aliases) add(Entry(t.lowercase(), u.id, "unit"))
-            }
-            for ((code, aliases) in ml.currencyAliasesByCode) {
-                for (t in listOf(code, currencyName(code)) + aliases) add(Entry(t.lowercase(), code, CURRENCY))
-            }
-            for (a in ml.ambiguousAliases) {
-                val r = ml.resolve(a.alias, region, a.domain) ?: continue
-                add(Entry(a.alias.lowercase(), r.id, if (r.domain == "currency") CURRENCY else "unit"))
-            }
+    private fun searcher(): Search {
+        val codes = rates?.codes.orEmpty()
+        if (searchIndex == null || codes != searchCodes) {
+            searchIndex = Search(ml, region, codes)
+            searchCodes = codes
         }
+        return searchIndex!!
     }
 
     private fun choice(id: String, domain: String, matched: String): Choice = if (domain == CURRENCY) {
