@@ -14,7 +14,9 @@ adb logcat -d > logcat.txt
 
 if grep -q "FATAL EXCEPTION" logcat.txt || ! adb shell pidof "$PKG" > /dev/null; then
     echo "App crashed or is not running:"
-    grep -A60 "FATAL EXCEPTION" logcat.txt || tail -100 logcat.txt
+    # Exception headline and every "Caused by" with the app frames under it.
+    grep "AndroidRuntime" logcat.txt | grep -E "FATAL|Process:|Exception|Error|Caused by|at sg\\.pixeltools" | head -80 \
+        || tail -100 logcat.txt
     exit 1
 fi
 echo "App launched and is still running."
