@@ -172,6 +172,7 @@ button.chip:active { transform: scale(.95); }
 .welcome-art .w5 { left: 2%; top: 62%; font-size: 28px; animation-delay: -2.4s; }
 .welcome-art .w6 { right: 0; top: 46%; font-size: 26px; animation-delay: -3s; }
 .welcome .brand { font-size: 42px; }
+.restore-link { display: inline-block; margin-top: 4px; padding: 10px; color: var(--muted); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .lead { color: var(--muted); font-size: 16px; line-height: 1.45; margin: 6px auto 18px; max-width: 360px; }
 .feature-list { list-style: none; margin: 0 0 20px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; }
 .feature-list li { background: #fff; border-radius: var(--r); padding: 12px 14px; box-shadow: var(--shadow); display: grid; gap: 6px; }

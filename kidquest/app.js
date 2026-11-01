@@ -11,7 +11,7 @@
   const AVATARS = ['🦊', '🐼', '🦄', '🐯', '🐸', '🐵', '🐧', '🦁', '🐨', '🐰', '🐙', '🦖', '🐶', '🐱', '🦋', '🐳', '🐲', '🦉', '🐞', '🚀'];
   const COLORS = ['#FF7A59', '#FFB020', '#2EC4B6', '#4D96FF', '#9B5DE5', '#F15BB5', '#00B86B', '#FF5D73'];
   const TASK_ICONS = ['🪥', '🛏️', '👕', '🥣', '🎒', '✏️', '📚', '📖', '🧸', '🍽️', '🛁', '🚿', '🌙', '🐕', '🌱', '🎹', '⚽', '🧹', '🧺', '💧', '🥦', '🙏', '👟', '🧩', '🎨', '🏃', '🗑️', '💊'];
-  const REWARD_ICONS = ['🍦', '🎮', '📺', '🎬', '🎨', '🧁', '🍕', '🍫', '🎡', '🛝', '🏊', '🚲', '🧸', '🎁', '🌙', '📱', '🎟️', '⭐'];
+  const REWARD_ICONS = ['🍦', '🎮', '📺', '🍪', '🤖', '🕹️', '🎬', '🎨', '🧁', '🍕', '🍫', '🎡', '🛝', '🏊', '🚲', '🧸', '🎁', '🌙', '📱', '🎟️', '⭐'];
   const SLOTS = [
     { id: 'morning', label: 'Morning', icon: '🌅' },
     { id: 'afternoon', label: 'Afternoon', icon: '☀️' },
@@ -344,6 +344,7 @@
       <div class="stack">
         <button type="button" class="btn btn-primary btn-lg" data-action="start-sample">✨ Try it with examples</button>
         <button type="button" class="btn btn-ghost btn-lg" data-action="start-fresh">Set up from scratch</button>
+        <label class="restore-link">📥 Restore from a backup file<input type="file" accept="application/json,.json" data-import hidden></label>
       </div>
     </div>`;
   }
@@ -728,7 +729,7 @@
   }
 
   /* ----- Forms ----- */
-  const radioPicker = (name, items, current, cls = 'pick-grid') => `<div class="${cls}">${items.map(a => `<label class="pick"><input type="radio" name="${name}" value="${a}" ${a === current ? 'checked' : ''}><span>${a}</span></label>`).join('')}</div>`;
+  const radioPicker = (name, items, current, cls = 'pick-grid') => `<div class="${cls}">${(current && !items.includes(current) ? [current, ...items] : items).map(a => `<label class="pick"><input type="radio" name="${name}" value="${a}" ${a === current ? 'checked' : ''}><span>${a}</span></label>`).join('')}</div>`;
   const kidPicker = selected => state.children.length
     ? `<div class="kid-picks">${state.children.map(c => `<label class="kid-pick" style="--accent:${c.color}"><input type="checkbox" name="kids" value="${c.id}" ${selected.includes(c.id) ? 'checked' : ''}><span><i>${c.avatar}</i>${esc(c.name)}</span></label>`).join('')}</div>`
     : `<p class="hint">Add a child first to assign this.</p>`;
