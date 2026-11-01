@@ -5,6 +5,7 @@
   'use strict';
 
   /* ===================== Constants ===================== */
+  const APP_VERSION = '1.2.0'; // bump on every release (keep sw.js CACHE in sync)
   const STORE_KEY = 'kidquest:v1';
   const SESSION_KEY = 'kidquest:unlocked';
 
@@ -312,6 +313,7 @@
         <circle cx="${h}" cy="${h}" r="${r}" class="ring-fg" stroke-width="${stroke}" stroke-dasharray="${c.toFixed(2)}" stroke-dashoffset="${(c * (1 - clamp(pct, 0, 1))).toFixed(2)}" transform="rotate(-90 ${h} ${h})"/>
       </svg><span>${inner}</span></div>`;
   }
+  const appFooter = () => `<footer class="app-footer">KidQuest v${APP_VERSION}</footer>`;
   const avatarDots = ids => ids.map(getChild).filter(Boolean).map(c => `<span class="avatar avatar-xs" style="--accent:${c.color}" title="${esc(c.name)}">${c.avatar}</span>`).join('');
   const typeIcon = { task: '✅', reward: '🎁', bonus: '🌟', penalty: '⚠️', refund: '↩️' };
   function activityList(entries, showKid) {
@@ -346,6 +348,7 @@
         <button type="button" class="btn btn-ghost btn-lg" data-action="start-fresh">Set up from scratch</button>
         <button type="button" class="restore-link" data-action="import">📥 Restore from a backup file</button>
       </div>
+      ${appFooter()}
     </div>`;
   }
 
@@ -379,6 +382,7 @@
         <button type="button" class="parent-link" data-action="parent">👪 Parent zone${pend ? ` · <b>${plural(pend, 'request')}</b>` : ''}</button>`
       : `<div class="empty"><div class="empty-art">🧒</div><h2>No explorers yet</h2><p>Add a child profile in the parent zone to get started.</p>
           <button type="button" class="btn btn-primary" data-action="parent">Open parent zone</button></div>`}
+      ${appFooter()}
     </div>`;
   }
 
@@ -404,7 +408,7 @@
           <div><h1>Hi, ${esc(c.name)}!</h1><p>${msg}</p></div>
         </div>
       </header>
-      <div class="child-body">${body}</div>
+      <div class="child-body">${body}${appFooter()}</div>
       <nav class="bottom-nav">${item('today', '🗓️', 'Quests')}${item('rewards', '🎁', 'Rewards')}${item('activity', '🏆', 'Trophies')}</nav>
     </div>`;
   }
@@ -529,7 +533,7 @@
         <button type="button" class="btn btn-soft btn-small" data-action="lock">🔒 Lock</button>
       </header>
       ${!state.settings.pin ? `<div class="banner warn"><span>🔑</span><p>Set a parent PIN so kids can't change tasks or points.</p><button type="button" class="btn btn-primary btn-small" data-action="set-pin">Set PIN</button></div>` : ''}
-      <div class="parent-body">${body}</div>
+      <div class="parent-body">${body}${appFooter()}</div>
       <nav class="bottom-nav five">
         ${item('kids', '👧', 'Kids')}${item('tasks', '🗓️', 'Tasks')}${item('rewards', '🎁', 'Rewards')}${item('inbox', '📬', 'Inbox', pend)}${item('settings', '⚙️', 'Settings')}
       </nav>
@@ -632,6 +636,10 @@
       <div class="card settings">
         <div class="setting"><span class="grow"><b>Load example data</b><small>Replaces everything with a demo family</small></span><button type="button" class="btn btn-soft btn-small" data-action="load-sample">Load</button></div>
         <div class="setting"><span class="grow"><b>Reset everything</b><small>Delete all kids, tasks, rewards and stars</small></span><button type="button" class="btn btn-danger btn-small" data-action="reset">Reset</button></div>
+      </div>
+      <h3 class="section-title">ℹ️ About</h3>
+      <div class="card settings">
+        <div class="setting"><span class="grow"><b>Version</b><small>KidQuest web app</small></span><span class="chip">v${APP_VERSION}</span></div>
       </div>
       <p class="hint center">KidQuest stores data only on this device. Export a backup to move it to another phone.</p>`;
   }

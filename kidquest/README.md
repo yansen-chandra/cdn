@@ -39,3 +39,14 @@ Everything is stored in the browser's `localStorage` on the device (key `kidques
 | `app.js` | State, routing, views and interactions |
 | `styles.css` | Mobile-first styles and animations |
 | `manifest.webmanifest`, `sw.js`, `icons/` | PWA install and offline support |
+
+## Versioning
+
+The version is set in `APP_VERSION` at the top of `app.js` and shown at the bottom of every screen and in **Settings → About**. When releasing, bump it and set the same value in `CACHE` in `sw.js`.
+
+| Version | Changes |
+| --- | --- |
+| 1.2.0 | Version number in footer and Settings |
+| 1.1.1 | Fix backup import doing nothing on Android |
+| 1.1.0 | Sample family backup, restore from the welcome screen, more reward icons |
+| 1.0.0 | First release |

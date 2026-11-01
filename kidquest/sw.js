@@ -1,5 +1,5 @@
 /* KidQuest service worker: offline support for the app shell. */
-const CACHE = 'kidquest-v2';
+const CACHE = 'kidquest-1.2.0';
 const ASSETS = ['./', './index.html', './styles.css', './app.js', './manifest.webmanifest', './icons/icon.svg', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', e => {
