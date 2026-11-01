@@ -172,6 +172,12 @@ button.chip:active { transform: scale(.95); }
 .welcome-art .w5 { left: 2%; top: 62%; font-size: 28px; animation-delay: -2.4s; }
 .welcome-art .w6 { right: 0; top: 46%; font-size: 26px; animation-delay: -3s; }
 .welcome .brand { font-size: 42px; }
+.visually-hidden { position: fixed !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; opacity: 0; }
+.or { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 13px; font-weight: 800; margin: 4px 0; }
+.or::before, .or::after { content: ''; flex: 1; height: 2px; background: var(--line); }
+.form textarea { width: 100%; padding: 12px 14px; border-radius: 16px; border: 2px solid var(--line); background: #fff; font: 600 13px/1.4 ui-monospace, Menlo, monospace; resize: vertical; outline: none; }
+.form textarea:focus { border-color: var(--accent); }
+.import-detail { text-align: left; background: #fff; border-radius: 12px; padding: 10px 12px; font-size: 12px; white-space: pre-wrap; word-break: break-all; box-shadow: inset 0 0 0 2px var(--line); margin: 10px 0 0; }
 .app-footer { text-align: center; font-size: 12px; font-weight: 800; color: var(--muted); opacity: .7; margin-top: 28px; letter-spacing: .03em; }
 .restore-link { display: inline-block; margin-top: 4px; padding: 10px; color: var(--muted); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .lead { color: var(--muted); font-size: 16px; line-height: 1.45; margin: 6px auto 18px; max-width: 360px; }

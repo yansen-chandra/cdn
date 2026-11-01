@@ -5,7 +5,7 @@
   'use strict';
 
   /* ===================== Constants ===================== */
-  const APP_VERSION = '1.2.0'; // bump on every release (keep sw.js CACHE in sync)
+  const APP_VERSION = '1.3.0'; // bump on every release (keep sw.js CACHE in sync)
   const STORE_KEY = 'kidquest:v1';
   const SESSION_KEY = 'kidquest:unlocked';
 
@@ -630,7 +630,7 @@
       <h3 class="section-title">💾 Backup</h3>
       <div class="card settings">
         <div class="setting"><span class="grow"><b>Export data</b><small>Save everything to a file</small></span><button type="button" class="btn btn-soft btn-small" data-action="export">Export</button></div>
-        <div class="setting"><span class="grow"><b>Import data</b><small>Restore from a backup file</small></span><button type="button" class="btn btn-soft btn-small" data-action="import">Import</button></div>
+        <div class="setting"><span class="grow"><b>Import data</b><small>Restore from a file or pasted text</small></span><button type="button" class="btn btn-soft btn-small" data-action="import">Import</button></div>
       </div>
       <h3 class="section-title">🧹 Danger zone</h3>
       <div class="card settings">
@@ -1106,32 +1106,71 @@
     if (!sheetRoot.classList.contains('open')) render();
   });
 
-  /* ----- Backup import: one permanent file input that is never re-rendered ----- */
+  /* ----- Backup import ----- */
+  // Shows the problem in a sheet (not a toast) so it can't be missed or hidden.
+  function importError(msg, detail) {
+    openSheet(`<div class="confirm"><div class="confirm-icon">😕</div><h2 class="sheet-title">Couldn't import</h2>
+      <p class="muted">${esc(msg)}</p>${detail ? `<pre class="import-detail">${esc(detail)}</pre>` : ''}
+      <div class="sheet-actions"><button type="button" class="btn btn-ghost grow" data-action="close-sheet">Close</button>
+      <button type="button" class="btn btn-primary grow" data-action="import">Try again</button></div></div>`);
+  }
+  // Single entry point for file, paste and link imports.
+  function offerRestore(text, source) {
+    let data;
+    const raw = String(text || '').replace(/^﻿/, '').trim();
+    if (!raw) return importError(`${source} is empty.`);
+    try { data = JSON.parse(raw); }
+    catch (err) { return importError(`${source} isn't a KidQuest backup (not valid JSON). It starts with:`, raw.slice(0, 80)); }
+    if (!data || !Array.isArray(data.children) || !Array.isArray(data.tasks)) return importError(`${source} is JSON, but has no kids or tasks in it.`);
+    confirmSheet({
+      icon: '📥', title: 'Restore this backup?', ok: 'Restore', danger: true,
+      text: `It has ${plural(data.children.length, 'child', 'children')}, ${plural(data.tasks.length, 'task')} and ${plural((data.rewards || []).length, 'reward')}.${state.children.length ? ' Your current data will be replaced.' : ''}`,
+      onOk() { state = normalize(data); state.onboarded = true; save(); ui.taskFilter = 'all'; render(); toast('Backup restored ✅'); },
+    });
+  }
+
+  // One permanent file input that is never re-rendered (Android's picker hides the page).
   const importInput = document.createElement('input');
   importInput.type = 'file';
-  importInput.hidden = true; // no "accept" filter: Android often greys out .json downloads
+  importInput.className = 'visually-hidden'; // not display:none – some mobile browsers skip events on those
+  importInput.tabIndex = -1;
+  importInput.setAttribute('aria-hidden', 'true');
   document.body.appendChild(importInput);
   importInput.addEventListener('change', () => {
     const file = importInput.files && importInput.files[0];
-    importInput.value = '';
-    if (!file) return;
+    if (!file) { toast('No file chosen'); return; }
+    toast(`Reading ${file.name}…`);
     const reader = new FileReader();
-    reader.onerror = () => toast('Could not read that file');
-    reader.onload = () => {
-      let data;
-      try {
-        data = JSON.parse(String(reader.result).replace(/^\uFEFF/, ''));
-        if (!data || !Array.isArray(data.children) || !Array.isArray(data.tasks)) throw new Error('bad file');
-      } catch (err) { toast('That file is not a KidQuest backup'); return; }
-      confirmSheet({
-        icon: '📥', title: 'Restore this backup?', ok: 'Restore', danger: true,
-        text: `It has ${plural(data.children.length, 'child', 'children')}, ${plural(data.tasks.length, 'task')} and ${plural((data.rewards || []).length, 'reward')}.${state.children.length ? ' Your current data will be replaced.' : ''}`,
-        onOk() { state = normalize(data); state.onboarded = true; save(); ui.taskFilter = 'all'; render(); toast('Backup restored ✅'); },
-      });
-    };
+    reader.onerror = () => importError(`Your phone wouldn't let the app read “${file.name}”.`, String(reader.error || ''));
+    reader.onload = () => { importInput.value = ''; offerRestore(reader.result, `“${file.name}”`); };
     reader.readAsText(file);
   });
-  actions.import = () => importInput.click();
+
+  actions.import = () => {
+    openSheet(`<div class="form"><h2 class="sheet-title">Import data</h2>
+      <p class="muted">Restoring replaces everything currently in the app.</p>
+      <button type="button" class="btn btn-primary btn-lg" data-action="import-file">📁 Choose a backup file</button>
+      <div class="or"><span>or paste the backup text</span></div>
+      <form class="form" data-form="paste"><textarea name="json" rows="5" placeholder='{"version": 1, "children": [ … ] }' spellcheck="false" autocapitalize="off"></textarea>
+      <button class="btn btn-ghost">📋 Import pasted text</button></form></div>`);
+  };
+  actions['import-file'] = () => importInput.click();
+  forms.paste = (f, fd) => offerRestore(fd.get('json'), 'The pasted text');
+
+  // Link import: index.html?import=samples/family-sample.json (same-site files only).
+  (function importFromLink() {
+    const params = new URLSearchParams(location.search);
+    const src = params.get('import');
+    if (!src) return;
+    history.replaceState(null, '', location.pathname + location.hash);
+    let url;
+    try { url = new URL(src, location.href); } catch (e) { return; }
+    if (url.origin !== location.origin || !/\.json$/i.test(url.pathname)) return importError('That import link is not allowed.');
+    fetch(url, { cache: 'no-cache' })
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); })
+      .then(text => offerRestore(text, `“${url.pathname.split('/').pop()}”`))
+      .catch(err => importError('Could not download the backup from that link.', String(err)));
+  })();
 
   render();
 

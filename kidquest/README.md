@@ -46,6 +46,7 @@ The version is set in `APP_VERSION` at the top of `app.js` and shown at the bott
 
 | Version | Changes |
 | --- | --- |
+| 1.3.0 | Import sheet: choose file or paste text, import via `?import=` link, clearer import errors, always fetch latest app files |
 | 1.2.0 | Version number in footer and Settings |
 | 1.1.1 | Fix backup import doing nothing on Android |
 | 1.1.0 | Sample family backup, restore from the welcome screen, more reward icons |
