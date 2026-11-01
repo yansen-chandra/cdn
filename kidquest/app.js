@@ -344,7 +344,7 @@
       <div class="stack">
         <button type="button" class="btn btn-primary btn-lg" data-action="start-sample">✨ Try it with examples</button>
         <button type="button" class="btn btn-ghost btn-lg" data-action="start-fresh">Set up from scratch</button>
-        <label class="restore-link">📥 Restore from a backup file<input type="file" accept="application/json,.json" data-import hidden></label>
+        <button type="button" class="restore-link" data-action="import">📥 Restore from a backup file</button>
       </div>
     </div>`;
   }
@@ -626,7 +626,7 @@
       <h3 class="section-title">💾 Backup</h3>
       <div class="card settings">
         <div class="setting"><span class="grow"><b>Export data</b><small>Save everything to a file</small></span><button type="button" class="btn btn-soft btn-small" data-action="export">Export</button></div>
-        <label class="setting"><span class="grow"><b>Import data</b><small>Restore from a backup file</small></span><span class="btn btn-soft btn-small">Import</span><input type="file" accept="application/json,.json" data-import hidden></label>
+        <div class="setting"><span class="grow"><b>Import data</b><small>Restore from a backup file</small></span><button type="button" class="btn btn-soft btn-small" data-action="import">Import</button></div>
       </div>
       <h3 class="section-title">🧹 Danger zone</h3>
       <div class="card settings">
@@ -1075,22 +1075,6 @@
       toast(`${t.closest('.setting').querySelector('b').textContent}: ${t.checked ? 'on' : 'off'}`);
       return;
     }
-    if (t.matches('[data-import]')) {
-      const file = t.files && t.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const data = JSON.parse(reader.result);
-          if (!data || !Array.isArray(data.children) || !Array.isArray(data.tasks)) throw new Error('bad file');
-          confirmSheet({ icon: '📥', title: 'Restore this backup?', text: `It has ${plural(data.children.length, 'child', 'children')}, ${plural(data.tasks.length, 'task')} and ${plural((data.rewards || []).length, 'reward')}. Your current data will be replaced.`, ok: 'Restore', danger: true,
-            onOk() { state = normalize(data); state.onboarded = true; save(); render(); toast('Backup restored ✅'); } });
-        } catch (err) { toast('That file is not a KidQuest backup'); }
-        t.value = '';
-      };
-      reader.readAsText(file);
-      return;
-    }
     const form = t.closest('form[data-form="child"]');
     if (form) {
       const pv = $('#child-preview');
@@ -1104,7 +1088,42 @@
     else if (pinCtx && e.key === 'Backspace') pinKey('⌫');
   });
   window.addEventListener('hashchange', () => { closeSheet(); render(); window.scrollTo(0, 0); });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && !sheetRoot.classList.contains('open')) render(); });
+  // Only redraw on return when the day rolled over. Redrawing unconditionally would also run when
+  // Android's file picker hands control back, which used to swap out the page mid-import.
+  let shownDay = todayKey();
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden || todayKey() === shownDay) return;
+    shownDay = todayKey();
+    if (ui.date < shownDay) ui.date = shownDay;
+    if (!sheetRoot.classList.contains('open')) render();
+  });
+
+  /* ----- Backup import: one permanent file input that is never re-rendered ----- */
+  const importInput = document.createElement('input');
+  importInput.type = 'file';
+  importInput.hidden = true; // no "accept" filter: Android often greys out .json downloads
+  document.body.appendChild(importInput);
+  importInput.addEventListener('change', () => {
+    const file = importInput.files && importInput.files[0];
+    importInput.value = '';
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onerror = () => toast('Could not read that file');
+    reader.onload = () => {
+      let data;
+      try {
+        data = JSON.parse(String(reader.result).replace(/^\uFEFF/, ''));
+        if (!data || !Array.isArray(data.children) || !Array.isArray(data.tasks)) throw new Error('bad file');
+      } catch (err) { toast('That file is not a KidQuest backup'); return; }
+      confirmSheet({
+        icon: '📥', title: 'Restore this backup?', ok: 'Restore', danger: true,
+        text: `It has ${plural(data.children.length, 'child', 'children')}, ${plural(data.tasks.length, 'task')} and ${plural((data.rewards || []).length, 'reward')}.${state.children.length ? ' Your current data will be replaced.' : ''}`,
+        onOk() { state = normalize(data); state.onboarded = true; save(); ui.taskFilter = 'all'; render(); toast('Backup restored ✅'); },
+      });
+    };
+    reader.readAsText(file);
+  });
+  actions.import = () => importInput.click();
 
   render();
 
