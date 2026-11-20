@@ -56,5 +56,5 @@ dependencies {
 dependencies {
     testImplementation(libs.junit)
     testImplementation(kotlin("test"))
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+    testImplementation(libs.kotlinx.coroutines.test)
 }
