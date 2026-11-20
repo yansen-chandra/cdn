@@ -28,6 +28,14 @@ value class ClockTime(val minutes: Int) : Comparable<ClockTime> {
             require(h in 0..23 && m in 0..59) { "Not a valid time: $text" }
             return of(h, m)
         }
+
+        /** Forgiving parse for typed input: "9:30", "09:30" or "930". Null if it isn't a time. */
+        fun parseOrNull(text: String): ClockTime? {
+            val t = text.trim()
+            if (t.isEmpty()) return null
+            val normalized = if (':' !in t && t.length in 3..4 && t.all(Char::isDigit)) t.dropLast(2) + ":" + t.takeLast(2) else t
+            return runCatching { parse(normalized) }.getOrNull()
+        }
     }
 }
 

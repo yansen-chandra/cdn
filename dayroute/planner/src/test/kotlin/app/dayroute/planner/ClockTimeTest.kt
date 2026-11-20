@@ -20,3 +20,19 @@ class ClockTimeTest {
         assertEquals("00:30+1", (ClockTime.parse("23:45") + 45).toString())
     }
 }
+
+class LenientTimeTest {
+    @Test
+    fun `accepts the ways people type times`() {
+        assertEquals("09:30", ClockTime.parseOrNull("9:30").toString())
+        assertEquals("09:30", ClockTime.parseOrNull("930").toString())
+        assertEquals("14:05", ClockTime.parseOrNull(" 1405 ").toString())
+    }
+
+    @Test
+    fun `rejects blanks and nonsense`() {
+        assertEquals(null, ClockTime.parseOrNull(""))
+        assertEquals(null, ClockTime.parseOrNull("25:00"))
+        assertEquals(null, ClockTime.parseOrNull("noon"))
+    }
+}
